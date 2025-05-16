@@ -22,6 +22,10 @@ public class Author {
 	
 	@ManyToMany(mappedBy = "authors")
 	private List<Book> books;
+	
+	public Long getId() {
+		return id;
+	}
 
 	public String getFirstName() {
 		return firstName;

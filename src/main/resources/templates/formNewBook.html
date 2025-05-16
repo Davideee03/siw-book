@@ -6,7 +6,7 @@
 </head>
 
 <body>
-	<form th:action="@{/books}" method="POST" th:object="${book}">
+	<form th:action="@{/book}" method="POST" th:object="${book}">
 		<div>
 			Title: <span><input required type="text" th:field="${book.title}" /></span>
 		</div>

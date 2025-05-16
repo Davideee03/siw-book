@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Authors</title>
+	</head>
+	
+	<body>
+		<div th:each="author : ${authors}">
+			<h1>
+				<span th:text="${author.firstName} + ' ' + ${author.lastName}"></span> 
+			</h1>
+		</div>
+	</body>
+</html>

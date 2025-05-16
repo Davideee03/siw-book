@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import it.uniroma3.siw.model.Author;
 import it.uniroma3.siw.model.Book;
 import it.uniroma3.siw.service.BookService;
 
@@ -43,7 +44,7 @@ public class BookController {
 		return "formNewBook.html";
 	}
 	
-	@PostMapping("/books")
+	@PostMapping("/book")
 	public String newBook(@ModelAttribute("book") Book book, Model model) {
 		this.bookService.save(book);
 		return "redirect:/book/"+book.getId();
