@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title th:text="${book.title + ' (' + book.year + ')'}"></title>
+</head>
+
+<body>
+	<div>
+		Title: <span th:text="${book.title}"></span>
+	</div>
+	<div>
+		Year: <span th:text="${book.year}"></span>
+	</div>
+</body>
+
+</html>

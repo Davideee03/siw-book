@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Add new book</title>
+</head>
+
+<body>
+	<form th:action="@{/books}" method="POST" th:object="${book}">
+		<div>
+			Title: <span><input required type="text" th:field="${book.title}" /></span>
+		</div>
+			Year: <span><input required type="number" th:field="${book.year}"/> </span></span>
+		<div>
+			<span><button type="submit">Submit</button></span>
+		</div>
+	</form>
+</body>
+
+</html>

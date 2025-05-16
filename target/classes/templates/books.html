@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Books</title>
+	</head>
+	
+	<body>
+		<div th:each="book : ${books}">
+			<h1>
+				<span th:text="${book.title} + ' (' + ${book.year} + ')'"></span> 
+			</h1>
+		</div>
+	</body>
+</html>
