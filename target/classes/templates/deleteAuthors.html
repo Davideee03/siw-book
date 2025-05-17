@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Delete Authors</title>
+</head>
+
+<body>
+	<form th:action="@{/authors-deleted}" method="post">
+		<div th:each="author : ${authors}">
+			<h1>
+				<input type="checkbox" name="selectedIds" th:value="${author.id}">
+				<span th:text="${author.firstName} + ' ' + ${author.lastName}"></span>
+			</h1>
+		</div>
+
+		<button type="submit">Delete Selected</button>
+	</form>
+</body>
+
+</html>

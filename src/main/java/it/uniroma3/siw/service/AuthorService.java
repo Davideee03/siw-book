@@ -26,4 +26,8 @@ public class AuthorService {
 	public Author save(Author author) {
 		return this.authorRepository.save(author);
 	}
+	
+	public void deleteAllById(List<Long> ids) {
+		this.authorRepository.deleteAllById(ids);
+	}
 }

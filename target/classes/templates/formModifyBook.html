@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Form Modify Book</title>
+</head>
+
+<body>
+	<form th:action="@{/update/book/{id}(id=${id})}" method="post" th:object="${book}">
+
+		<div>
+			Title: <input required type="text" th:field="*{title}" />
+		</div>
+		<div>
+			Year: <input required type="number" th:field="*{year}" />
+		</div>
+
+		<button type="submit">Submit</button>
+	</form>
+</body>
+
+</html>

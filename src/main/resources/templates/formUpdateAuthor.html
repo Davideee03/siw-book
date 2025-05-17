@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Update Author</title>
+</head>
+<body>
+    <form th:action="@{/author-updated/{id}(id=${id})}" method="post" th:object="${author}">
+        <div>
+            Name: <input type="text" th:field="${author.firstName}" />
+        </div>
+
+        <div>
+            Surname: <input type="text" th:field="${author.lastName}" />
+        </div>
+        
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
