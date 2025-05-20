@@ -41,14 +41,15 @@ public class AuthorController {
 	
 	@GetMapping("/author/{id}")
 	public String getAuthorById(@PathVariable("id") Long id, Model model) {
-		Optional<Author> author = this.authorService.getAuthorById(id);
+		Author author = this.authorService.getAuthorById(id);
 		
-		if(author.isPresent()) {
-			model.addAttribute("author", author.get());
+		if(author!=null) {
+			model.addAttribute("author", author);
 			return "author.html";
 		}
-		
-		return "authorNotFound.html";
+
+		model.addAttribute("errorMessage", "Author not found");
+		return "error.html";
 	}
 	
 	@GetMapping("/administrator/delete/authors")
@@ -59,7 +60,7 @@ public class AuthorController {
 	}
 	
 	@PostMapping("/authors-deleted")
-	public String authorsDeleted(@RequestParam("selectedIds") List<Long> ids, Model model) {
+	public String authorsDeleted(@RequestParam("selectedIds") List<Long> ids) {
 		this.authorService.deleteAllById(ids);
 		
 		return "redirect:/show/authors";
@@ -67,25 +68,31 @@ public class AuthorController {
 	
 	@GetMapping("/administrator/update/author/{id}")
 	public String updateAuthor(@PathVariable("id") Long id, Model model) {
-		Optional<Author> author = this.authorService.getAuthorById(id);
+		Author author = this.authorService.getAuthorById(id);
 		
-		if(author.isPresent()) {
-			model.addAttribute("author", author.get());
-			model.addAttribute("id", author.get().getId());
+		if(author!=null) {
+			model.addAttribute("author", author);
+			model.addAttribute("id", id);
 			
 			return "formUpdateAuthor.html";
 		}
 		
-		return "authorNotFound.html";
+		model.addAttribute("errorMessage", "Author not found");
+		return "error.html";
 	}
 	
 	@PostMapping("/author-updated/{id}")
-	public String authorUpdated(@PathVariable("id") Long id, @ModelAttribute Author author, Model model) {
+	public String authorUpdated(@PathVariable("id") Long id, @ModelAttribute Author authorUpdated) {
+		Author author = this.authorService.getAuthorById(id);
 		
-		author.setId(id);
-		this.authorService.save(author);
-		
-		model.addAttribute("author", author);
+		if(author!=null) {
+			author.setBirthDate(authorUpdated.getBirthDate());
+			author.setDeathDate(authorUpdated.getDeathDate());
+			author.setFirstName(authorUpdated.getFirstName());
+			author.setLastName(authorUpdated.getLastName());
+			author.setNationality(authorUpdated.getNationality());
+			this.authorService.save(author);			
+		}
 		
 		return "redirect:/author/"+id;
 	}

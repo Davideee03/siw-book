@@ -35,17 +35,19 @@ public class BookController {
 
 	@GetMapping("/book/{id}")
 	public String getBookById(@PathVariable("id") Long id, Model model) {
-		Optional<Book> book = bookService.getBookById(id);
+		Book book = bookService.getBookById(id);
 
 		//Check the presence of the book
-		if(book.isPresent()) {
-			model.addAttribute("book", book.get());
+		if(book!=null) {
+			model.addAttribute("book", book);
 			return "book.html";
 		}
-		return "bookNotFound.html";
+		
+		model.addAttribute("errorMessage", "Book not found");
+		return "error.html";
 	}
 
-	@GetMapping("/formNewBook")
+	@GetMapping("/administrator/formNewBook")
 	public String formNewBook(Model model) {
 		model.addAttribute("book", new Book());
 		return "formNewBook.html";
@@ -57,27 +59,31 @@ public class BookController {
 		return "redirect:/book/"+book.getId();
 	}
 
-	@GetMapping("/formModifyBook/book/{id}")
+	@GetMapping("/administrator/formUpdateBook/{id}")
 	public String modifyBook(@PathVariable("id") Long id, Model model) {
-		Optional<Book> book = bookService.getBookById(id);
+		Book book = bookService.getBookById(id);
 
-		//Check the presence of the book
-		if(book.isPresent()) {
+		if(book!=null) {
 			
-			model.addAttribute("book", book.get());
-			model.addAttribute("id", book.get().getId()); //Necessary for not duplicating books
-			return "formModifyBook.html";
+			model.addAttribute("book", book);
+			model.addAttribute("id", id);
+			return "formUpdateBook.html";
 		}
-		return "bookNotFound.html";
+		
+		model.addAttribute("errorMessage", "Book not found");
+		return "error.html";
 	}
 	
 	@PostMapping("/update/book/{id}")
-	public String updateBook(@PathVariable("id") Long id, @ModelAttribute Book updatedBook, Model model) {
-		//Set the right id and save it
-		updatedBook.setId(id);
-		this.bookService.save(updatedBook);
+	public String updateBook(@PathVariable("id") Long id, @ModelAttribute Book updatedBook) {
+		Book book = this.bookService.getBookById(id);
 		
-		model.addAttribute("book", updatedBook);
+		if(book!=null) {
+				book.setTitle(updatedBook.getTitle());
+				book.setYear(updatedBook.getYear());
+				
+				this.bookService.save(book);
+		}
 		
 		return "redirect:/book/"+id;
 	}
@@ -89,7 +95,7 @@ public class BookController {
 	}
 	
 	@PostMapping("/books-deleted")
-	public String deletedBooks(@RequestParam("selectedIds") List<Long> ids, Model model) {
+	public String deletedBooks(@RequestParam("selectedIds") List<Long> ids) {
 		this.bookService.deleteAllById(ids);
 		
 		return "redirect:/show/books";
