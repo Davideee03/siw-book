@@ -1,140 +1,152 @@
-/* Body and global settings */
-body, html {
-  background-image: linear-gradient(to right, #00c6ff, #0072ff);
-  margin: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: white;
+html,
+body {
+	height: 100%;
+	/* Prendono tutta l'altezza della finestra */
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	/* Layout verticale */
+	background-image: linear-gradient(to right, #00c6ff, #0072ff);
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	color: white;
+}
+
+body>*:not(nav):not(footer) {
+	margin-top: 60px;
+	/* spazio per navbar fissa */
+	flex: 1 0 auto;
 }
 
 /* Navbar */
 nav {
-  height: 60px;
-  display: flex;
-  align-items: center;
-  padding-left: 20px;
+	height: 60px;
+	display: flex;
+	align-items: center;
+	padding-left: 20px;
 }
 
 .nav-items a {
-  margin: 10px;
-  font-size: 30px;
-  color: white;
-  text-decoration: none;
-  font-weight: bold;
-  transition: opacity 0.3s ease;
+	margin: 10px;
+	font-size: 30px;
+	color: white;
+	text-decoration: none;
+	font-weight: bold;
+	transition: opacity 0.3s ease;
 }
 
 .nav-items a:hover {
-  opacity: 0.5;
+	opacity: 0.5;
 }
 
 /* Header */
 header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 400px;
-  justify-content: center;
-  background-image: linear-gradient(to right, #00c6ff, #0072ff);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	height: 400px;
+	justify-content: center;
+	background-image: linear-gradient(to right, #00c6ff, #0072ff);
 }
 
 header h1 {
-  color: white;
-  font-size: 75px;
-  margin: 10px;
+	color: white;
+	font-size: 75px;
+	margin: 10px;
 }
 
 header p {
-  font-size: 30px;
-  font-style: italic;
+	font-size: 30px;
+	font-style: italic;
 }
 
 /* Section */
 section {
-  margin: 10px 15px;
+	margin: 10px 15px;
 }
 
 /* Flex container for books */
 #flex-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 20px;
 }
 
 /* Book card */
 .flex-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 200px;
-  padding: 20px;
-  border-radius: 15px;
-  text-decoration: none;
-  color: inherit;
-  background-color: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 200px;
+	padding: 20px;
+	border-radius: 15px;
+	text-decoration: none;
+	color: inherit;
+	background-color: rgba(255, 255, 255, 0.15);
+	backdrop-filter: blur(10px);
+	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+	transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .flex-item:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+	transform: translateY(-5px);
+	box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
 
 /* Book image */
 .book-img {
-  width: 100%;
-  height: auto;
-  border-radius: 10px;
-  margin-bottom: 15px;
-  object-fit: cover;
+	width: 100%;
+	height: auto;
+	border-radius: 10px;
+	margin-bottom: 15px;
+	object-fit: cover;
 }
 
 /* Book title and link */
 .flex-item h3 a {
-  color: #00c6ff;
-  text-decoration: none;
-  font-size: 1.2rem;
-  font-weight: bold;
+	color: #00c6ff;
+	text-decoration: none;
+	font-size: 1.2rem;
+	font-weight: bold;
 }
 
 .flex-item h3 a:hover {
-  color: white;
+	color: white;
 }
 
 /* Book year */
 .flex-item p {
-  font-size: 1rem;
-  color: #e0e0e0;
-  margin-top: 10px;
+	font-size: 1rem;
+	color: #e0e0e0;
+	margin-top: 10px;
 }
 
 /* Footer */
 footer {
-  min-height: 12vh;
-  background-color: black;
+	flex-shrink: 0;
+	/* Footer non si riduce, rimane in basso */
+	min-height: 12vh;
+	background-color: black;
 }
 
 .book-authors {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  flex-wrap: wrap;
+	display: flex;
+	justify-content: center;
+	gap: 20px;
+	flex-wrap: wrap;
 }
 
-.book-authors p{
+.book-authors p {
 	font-size: 30px;
 }
 
-.description{
+.description {
 	text-align: center;
 	margin: 10px;
 	font-size: 30px;
 }
 
-.description p{
+.description p {
 	font-style: italic;
 }
-
