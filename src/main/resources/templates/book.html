@@ -10,30 +10,26 @@
 	<nav>
 		<div class="nav-items">
 			<a href="/">Home</a>
-			<a href="/">About</a>
-			<a href="/">Contact</a>
 		</div>
 	</nav>
 
 	<header>
-		<h1 th:text="${book.title}">></h1>
-		<p th:text="${book.year}"></p>
+		<h1 th:text="${book.title}"></h1>
 	</header>
 
 	<section>
-		<div th:if="${book.authors == null or #lists.isEmpty(book.authors)}">
-			<p>Author: Unknown</p>
+		<div class="book-authors">
+			<a class="flex-item" th:href="@{/author/{id}(id=${author.id})}" th:each="author : ${book.authors}">
+				<h3 th:text="${author.firstName + ' ' + author.lastName}"></h3>
+			</a>
 		</div>
-		<div th:unless="${book.authors == null or #lists.isEmpty(book.authors)}">
-			<div th:if="${#lists.size(book.authors)==1}">
-				Author:
-			</div>
-			<div th:unless="${#lists.size(book.authors)==1}">
-				Authors:
-			</div>
-			<div th:each="author : ${authors}">
-				<span th:text="${author.firstName} + ' ' + ${author.lastName}"></span>
-			</div>
+
+		<div class="description">
+			<h1>Year of publication</h1>
+			<p th:text="${book.year}"></p>
+			
+			<h2>Plot</h2>
+			<p th:text="${book.plot}"></p>
 		</div>
 	</section>
 

@@ -14,6 +14,7 @@ public class Book {
 	private Long id;
 	private String title;
 	private int year;
+	private String plot;
 	
 	@ManyToMany
 	@JoinTable(
@@ -49,6 +50,14 @@ public class Book {
 	}
 	public void setAuthors(List<Author> authors) {
 	    this.authors = authors;
+	}
+
+	public String getPlot() {
+		return plot;
+	}
+
+	public void setPlot(String plot) {
+		this.plot = plot;
 	}
 
 }
