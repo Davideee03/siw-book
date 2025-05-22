@@ -9,7 +9,7 @@ import jakarta.persistence.*;
 public class Author {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	  @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
 	private String firstName;
@@ -69,5 +69,9 @@ public class Author {
 
 	public void setNationality(String nationality) {
 		this.nationality = nationality;
+	}
+	
+	public List<Book> getBooks(){
+		return this.books;
 	}
 }

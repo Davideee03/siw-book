@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title  th:text="${author.firstName} + ' ' + ${author.lastName}" ></title>
+		<title th:text="${author.firstName} + ' ' + ${author.lastName}" ></title>
 	</head>
+	
+	<body>
+		<h1 th:text="${author.firstName} + ' ' + ${author.lastName}"></h1>
+	</body>
 </html>

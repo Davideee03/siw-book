@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import it.uniroma3.siw.model.Author;
+import it.uniroma3.siw.model.Book;
 import it.uniroma3.siw.service.AuthorService;
 
 @Controller
@@ -52,15 +53,22 @@ public class AuthorController {
 		return "error.html";
 	}
 	
-	@GetMapping("/administrator/delete/authors")
+	@GetMapping("/administrator/formDeleteAuthors")
 	public String deleteAuthors(Model model) {
 		model.addAttribute("authors", this.authorService.showAuthors());
 		
-		return "deleteAuthors.html";
+		return "formDeleteAuthors.html";
 	}
 	
 	@PostMapping("/authors-deleted")
 	public String authorsDeleted(@RequestParam("selectedIds") List<Long> ids) {
+		List<Author> authors = this.authorService.getAllAuthorsById(ids);
+		
+		for (Author author : authors){
+			for(Book book : author.getBooks()) {
+				book.getAuthors().remove(author);
+			}
+		}
 		this.authorService.deleteAllById(ids);
 		
 		return "redirect:/show/authors";

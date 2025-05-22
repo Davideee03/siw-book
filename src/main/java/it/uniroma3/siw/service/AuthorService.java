@@ -23,6 +23,10 @@ public class AuthorService {
 		return this.authorRepository.findById(id).orElse(null);
 	}
 	
+	public List<Author> getAllAuthorsById(List<Long> ids){
+		return (List<Author>) this.authorRepository.findAllById(ids);
+	}
+	
 	public Author save(Author author) {
 		return this.authorRepository.save(author);
 	}

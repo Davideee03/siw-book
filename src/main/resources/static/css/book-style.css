@@ -1,0 +1,20 @@
+/* Navbar */
+nav {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
+}
+
+.nav-items a {
+  margin: 10px;
+  font-size: 20px;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  transition: opacity 0.3s ease;
+}
+
+.nav-items a:hover {
+  opacity: 0.5;
+}

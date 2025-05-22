@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>
+		Siw Books
+	</title>
+	<link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+	<nav>
+		<div class="nav-items">
+			<a href="/">Home</a>
+			<a href="/">About</a>
+			<a href="/">Contact</a>
+		</div>
+	</nav>
+
+	<header class="siw-book">
+		<h1>Siw Books</h1>
+		<p>All your book in one click!</p>
+	</header>
+
+	<section>
+		<div>
+			<h1>
+				Top rated books
+			</h1>
+		</div>
+		<div id="flex-container">
+			<a class="flex-item" th:href="@{/book/{id}(id=${book.id})}" th:each="book : ${books}">
+				<h3 th:text="${book.title}"></h3>
+				<p th:text="${book.year}"></p>
+			</a>
+		</div>
+	</section>
+
+	<footer>
+
+	</footer>
+
+</body>
+
+</html>

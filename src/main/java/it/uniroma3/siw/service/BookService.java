@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import it.uniroma3.siw.repository.BookRepository;
+import it.uniroma3.siw.model.Author;
 import it.uniroma3.siw.model.Book;
 
 @Service
@@ -15,7 +16,7 @@ public class BookService {
 	@Autowired
 	private BookRepository bookRepository;
 	
-	public List<Book> showBooks(){
+	public List<Book> getAllBooks(){
 		return (List<Book>) bookRepository.findAll();
 	}
 	
@@ -33,5 +34,11 @@ public class BookService {
 	
 	public Long count() {
 		return this.bookRepository.count();
+	}
+	
+	public List<Author> getAuthors(Long  id){
+		Book book = this.getBookById(id);
+		
+		return book.getAuthors();
 	}
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import it.uniroma3.siw.model.Author;
 import it.uniroma3.siw.model.Book;
+import it.uniroma3.siw.service.AuthorService;
 import it.uniroma3.siw.service.BookService;
 
 @Controller
@@ -22,11 +23,14 @@ public class BookController {
 
 	@Autowired
 	private BookService bookService;
+	
+	@Autowired
+	private AuthorService authorService;
 
 	@GetMapping("/show/books")
 	public String showBook(Model model) {
 		if(this.bookService.count()>0) {
-			model.addAttribute("books", this.bookService.showBooks());
+			model.addAttribute("books", this.bookService.getAllBooks());
 			return "books.html";
 		}
 		
@@ -40,6 +44,7 @@ public class BookController {
 		//Check the presence of the book
 		if(book!=null) {
 			model.addAttribute("book", book);
+			model.addAttribute("authors", this.bookService.getAuthors(id));
 			return "book.html";
 		}
 		
@@ -50,14 +55,20 @@ public class BookController {
 	@GetMapping("/administrator/formNewBook")
 	public String formNewBook(Model model) {
 		model.addAttribute("book", new Book());
+		model.addAttribute("authors", this.authorService.showAuthors());
 		return "formNewBook.html";
 	}
 
 	@PostMapping("/book")
-	public String saveBook(@ModelAttribute("book") Book book, Model model) {
+	public String saveBook(@ModelAttribute("book") Book book, @RequestParam("selectedIds") List<Long> ids, Model model) {
+		// Associa gli autori selezionati
+		book.setAuthors(this.authorService.getAllAuthorsById(ids));
+
+		// Salva il libro con gli autori
 		this.bookService.save(book);
-		return "redirect:/book/"+book.getId();
+		return "redirect:/book/" + book.getId();
 	}
+
 
 	@GetMapping("/administrator/formUpdateBook/{id}")
 	public String modifyBook(@PathVariable("id") Long id, Model model) {
@@ -67,6 +78,7 @@ public class BookController {
 			
 			model.addAttribute("book", book);
 			model.addAttribute("id", id);
+			model.addAttribute("authors", this.authorService.showAuthors());
 			return "formUpdateBook.html";
 		}
 		
@@ -75,23 +87,24 @@ public class BookController {
 	}
 	
 	@PostMapping("/update/book/{id}")
-	public String updateBook(@PathVariable("id") Long id, @ModelAttribute Book updatedBook) {
+	public String updateBook(@PathVariable("id") Long id, @ModelAttribute Book updatedBook, @RequestParam("selectedIds") List<Long> ids) {
 		Book book = this.bookService.getBookById(id);
 		
 		if(book!=null) {
 				book.setTitle(updatedBook.getTitle());
 				book.setYear(updatedBook.getYear());
 				
+				book.setAuthors(this.authorService.getAllAuthorsById(ids));		
 				this.bookService.save(book);
 		}
 		
 		return "redirect:/book/"+id;
 	}
 	
-	@GetMapping("/delete/books")
+	@GetMapping("/administrator/formDeleteBooks")
 	public String deleteBooks(Model model) {
-		model.addAttribute("books", this.bookService.showBooks());
-		return "deleteBooks.html";
+		model.addAttribute("books", this.bookService.getAllBooks());
+		return "formDeleteBooks.html";
 	}
 	
 	@PostMapping("/books-deleted")
