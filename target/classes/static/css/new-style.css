@@ -1,0 +1,107 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+
+html,
+body {
+	height: 100%;
+	width: 100%;
+	background-color: black;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+nav {
+	display: flex;
+	height: 40px;
+	padding-left: 30%;
+	align-items: center;
+}
+
+.nav-items a {
+	margin: 10px;
+	font-size: 20px;
+	text-decoration: none;
+	font-weight: bold;
+	transition: opacity 0.3s ease;
+	color: white;
+}
+
+.nav-items a:hover {
+	opacity: 0.5;
+}
+
+header {
+	height: 400px;
+	background-color: rebeccapurple;
+}
+
+.title {
+	padding-top: 50px;
+	padding-left: 30%;
+	font-size: 30px;
+}
+
+section {
+	background-color: black;
+	min-height: 750px;
+}
+
+.description {
+	padding-top: 50px;
+	font-size: 20px;
+	text-align: center;
+}
+
+#flex-container {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-evenly;
+	align-items: center;
+	padding: 32px;
+	max-width: 1000px;
+	gap: 32px;
+	margin: 0 auto;
+	width: 100%;
+}
+
+.flex-item {
+	display: flex;
+	flex-direction: column;
+
+	text-decoration: none;
+	text-align: center;
+	justify-content: flex-end;
+	align-items: center;
+	font-size: 14px;
+
+	max-width: 200px;
+	height: 350px;
+
+	transition: 0.3 ease;
+}
+
+.flex-item:hover {
+	opacity: 0.5;
+}
+
+.book-author-description {
+	padding-top: 50px;
+	margin: 30px 30%;
+	max-width: 1000px;
+}
+
+.reviews {
+	margin: 50px 30%;
+}
+
+.review {
+	margin: 20px;
+}
+
+footer {
+	height: 200px;
+	background-color: rgb(17, 17, 17);
+}

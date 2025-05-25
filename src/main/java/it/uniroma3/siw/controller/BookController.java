@@ -44,7 +44,6 @@ public class BookController {
 		//Check the presence of the book
 		if(book!=null) {
 			model.addAttribute("book", book);
-			model.addAttribute("authors", this.bookService.getAuthors(id));
 			return "book.html";
 		}
 		

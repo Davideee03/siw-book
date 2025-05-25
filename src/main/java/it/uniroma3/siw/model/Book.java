@@ -1,7 +1,6 @@
 package it.uniroma3.siw.model;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import jakarta.persistence.*;
@@ -23,6 +22,9 @@ public class Book {
 	    inverseJoinColumns = @JoinColumn(name = "author_id")
 	)
 	private List<Author> authors = new ArrayList<>();
+	
+	@OneToMany(mappedBy = "book")
+	private List<Review> reviews = new ArrayList<>();
 
 	
 	public Long getId() {
@@ -51,13 +53,16 @@ public class Book {
 	public void setAuthors(List<Author> authors) {
 	    this.authors = authors;
 	}
-
 	public String getPlot() {
 		return plot;
 	}
-
 	public void setPlot(String plot) {
 		this.plot = plot;
 	}
+	
+	public List<Review> getReviews(){
+		return this.reviews;
+	}
+	
 
 }

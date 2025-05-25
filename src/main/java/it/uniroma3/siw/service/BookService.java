@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import it.uniroma3.siw.repository.BookRepository;
@@ -17,15 +18,15 @@ public class BookService {
 	private BookRepository bookRepository;
 	
 	public List<Book> getAllBooks(){
-		return (List<Book>) bookRepository.findAll();
+		return (List<Book>) this.bookRepository.findAll();
 	}
 	
 	public Book getBookById(Long id) {
-		return bookRepository.findById(id).orElse(null);
+		return this.bookRepository.findById(id).orElse(null);
 	}
 	
 	public Book save(Book book) {
-		return bookRepository.save(book);
+		return this.bookRepository.save(book);
 	}
 	
 	public void deleteAllById(List<Long> ids) {
@@ -40,5 +41,9 @@ public class BookService {
 		Book book = this.getBookById(id);
 		
 		return book.getAuthors();
+	}
+	
+	public List<Book> getTop5Books(){
+		return this.bookRepository.findTopBooksByAverageMark(PageRequest.of(0, 5));
 	}
 }

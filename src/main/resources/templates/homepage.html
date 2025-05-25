@@ -5,7 +5,7 @@
 	<title>
 		Siw Books
 	</title>
-	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/new-style.css">
 </head>
 
 <body>
@@ -16,23 +16,38 @@
 		</div>
 	</nav>
 
-	<header class="siw-book">
-		<h1>Siw Books</h1>
-		<p>All your book in one click!</p>
+	<header>
+		<div class="title">
+			<h1>Siw Books</h1>
+			<p>All your book in one click!</p>
+		</div>
 	</header>
 
 	<section>
 		<div class="description">
-			<h1>
-				Top rated books
-			</h1>
+			<h1>Top rated books</h1>
 		</div>
 		<div id="flex-container">
-			<a class="flex-item" th:href="@{/book/{id}(id=${book.id})}" th:each="book : ${books}">
+			<a class="flex-item" th:href="@{/book/{id}(id=${book.id})}" th:each="book : ${topBooks}">
 				<h3 th:text="${book.title}"></h3>
-				<p th:text="${book.year}"></p>
+				<div th:unless="${#lists.isEmpty(book.authors)}" th:each="author : ${book.authors}">
+					<p th:text="${'of ' + author.firstName + author.lastName}"></p>
+				</div>
 			</a>
 		</div>
+
+		<div class="description">
+			<h1>Check out all the titles</h1>
+			<div id="flex-container">
+				<a class="flex-item" th:href="@{/book/{id}(id=${book.id})}" th:each="book : ${books}">
+					<h3 th:text="${book.title}"></h3>
+					<div th:unless="${#lists.isEmpty(book.authors)}" th:each="author : ${book.authors}">
+						<p th:text="${author.firstName + ' ' + author.lastName}"></p>
+					</div>
+				</a>
+			</div>
+		</div>
+
 	</section>
 
 	<footer>

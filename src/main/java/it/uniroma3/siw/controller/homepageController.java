@@ -8,13 +8,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import it.uniroma3.siw.service.BookService;
 
 @Controller
-public class homepageController {
+public class HomepageController {
 	
 	@Autowired
 	private BookService bookService;
 
 	@GetMapping("/")
 	public String homepage(Model model) {
+		model.addAttribute("topBooks", this.bookService.getTop5Books());
 		model.addAttribute("books", this.bookService.getAllBooks());
 		return "homepage.html";
 	}

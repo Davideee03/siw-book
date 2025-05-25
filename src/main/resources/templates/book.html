@@ -3,7 +3,7 @@
 
 <head>
 	<title th:text="${book.title + ' (' + book.year + ')'}"></title>
-	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/new-style.css">
 </head>
 
 <body>
@@ -14,23 +14,35 @@
 	</nav>
 
 	<header>
-		<h1 th:text="${book.title}"></h1>
+		<div class="title">
+			<h1 th:text="${book.title}"></h1>
+			<p th:text="${book.year}"></p>
+		</div>
 	</header>
 
 	<section>
-		<div class="book-authors">
+		<div id="flex-container">
 			<a class="flex-item" th:href="@{/author/{id}(id=${author.id})}" th:each="author : ${book.authors}">
 				<h3 th:text="${author.firstName + ' ' + author.lastName}"></h3>
 			</a>
 		</div>
 
-		<div class="description">
-			<h1>Year of publication</h1>
-			<p th:text="${book.year}"></p>
-			
-			<h2>Plot</h2>
-			<p th:text="${book.plot}"></p>
+		<div class="book-author-description">
+			<h1>Plot</h1>
+			<p th:text="${#strings.isEmpty(book.plot) ? 'Unknown' : book.plot}"></p>
 		</div>
+
+		<div th:unless="${#lists.isEmpty(book.reviews)}">
+			<div class="reviews">
+				<h3>Reviews</h3>
+				<div class="review" th:each="review : ${book.reviews}">
+					<h4 th:text="${review.title}"></h4>
+					<h5 th:text="${review.mark + '/5'}"></h5>
+					<p th:text="${review.description}"></p>
+				</div>
+			</div>
+		</div>
+
 	</section>
 
 	<footer>

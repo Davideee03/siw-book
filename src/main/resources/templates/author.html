@@ -3,7 +3,7 @@
 
 <head>
 	<title th:text="${author.firstName} + ' ' + ${author.lastName}"></title>
-	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/new-style.css">
 </head>
 
 <body>
@@ -14,25 +14,27 @@
 	</nav>
 
 	<header>
-		<h1 th:text="${author.firstName} + ' ' + ${author.lastName}"></h1>
+		<h1 class="title" th:text="${author.firstName} + ' ' + ${author.lastName}"></h1>
 	</header>
 
 	<section>
-		<div class="book-authors">
-			<div class="book-authors" th:with="count=${author.books.size()}">
-			  <h1 th:text="${count + (count == 1 ? ' book' : ' books')}"></h1>
+		<div class="book-author-description">
+			<h1 th:text="${author.birthDate} + ' - ' + (${author.deathDate} != null ? ${author.deathDate} : 'alive')"></h1>
+			<p th:text="${author.nationality}"></p>
+		</div>
 
-			  <a class="flex-item" th:href="@{/book/{id}(id=${book.id})}" th:each="book : ${author.books}">
-			    <h3 th:text="${book.title}"></h3>
-			  </a>
+		<div class="book-author-description" th:with="count=${author.books.size()}">
+			<h1 th:text="${count + (count == 1 ? ' book' : ' books')}"></h1>
+			<div id="flex-container">
+
+				<a class="flex-item" th:href="@{/book/{id}(id=${book.id})}" th:each="book : ${author.books}">
+					<h3 th:text="${book.title}"></h3>
+				</a>
 			</div>
 
 		</div>
 
-		<div class="description">
-			<h1 th:text="${author.birthDate + '-' + author.deathDate}"></h1>
-			<p th:text="${author.nationality}"></p>
-		</div>
+
 
 	</section>
 
