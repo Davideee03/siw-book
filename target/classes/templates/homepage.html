@@ -5,50 +5,90 @@
 	<title>
 		Siw Books
 	</title>
-	<link rel="stylesheet" href="/css/new-style.css">
+	<link rel="stylesheet" href="/css/style.css?v=1">
+
 </head>
 
 <body>
 	<nav>
-		<div class="nav-items">
+		<div class="nav-links">
 			<a href="/">About</a>
 			<a href="/">Contact</a>
+			<a href="/">Login</a>
 		</div>
 	</nav>
 
 	<header>
-		<div class="title">
-			<h1>Siw Books</h1>
-			<p>All your book in one click!</p>
-		</div>
+		<h1>Read&Rate</h1>
+		<p>All your book in one click!</p>
+
 	</header>
 
-	<section>
-		<div class="description">
-			<h1>Top rated books</h1>
-		</div>
-		<div id="flex-container">
-			<a class="flex-item" th:href="@{/book/{id}(id=${book.id})}" th:each="book : ${topBooks}">
-				<h3 th:text="${book.title}"></h3>
-				<div th:unless="${#lists.isEmpty(book.authors)}" th:each="author : ${book.authors}">
-					<p th:text="${'of ' + author.firstName + author.lastName}"></p>
-				</div>
-			</a>
-		</div>
-
-		<div class="description">
-			<h1>Check out all the titles</h1>
-			<div id="flex-container">
-				<a class="flex-item" th:href="@{/book/{id}(id=${book.id})}" th:each="book : ${books}">
-					<h3 th:text="${book.title}"></h3>
-					<div th:unless="${#lists.isEmpty(book.authors)}" th:each="author : ${book.authors}">
-						<p th:text="${author.firstName + ' ' + author.lastName}"></p>
-					</div>
-				</a>
-			</div>
-		</div>
-
+	<section class="hero">
+		<p>Editor's</p>
+		<h1>Suggestion</h1>
 	</section>
+
+	<div class="homepage">
+		<div class="books-container">
+			<section class="books">
+
+				<h1 class="center-title">Top rated books</h1>
+				<div id="flex-container">
+					<a class="flex-item" th:href="@{/book/{id}(id=${book.id})}" th:each="book : ${topBooks}">
+						<h3 th:text="${book.title}"></h3>
+						<div th:unless="${#lists.isEmpty(book.authors)}" th:each="author : ${book.authors}">
+							<p th:text="${'of ' + author.firstName + ' ' + author.lastName}"></p>
+						</div>
+					</a>
+				</div>
+			</section>
+
+			<section class="books">
+				<h1 class="center-title">Thrillers</h1>
+				<div id="flex-container">
+					<a class="flex-item" th:href="@{/book/{id}(id=${book.id})}" th:each="book : ${thrillerBooks}">
+						<h3 th:text="${book.title}"></h3>
+						<div th:unless="${#lists.isEmpty(book.authors)}" th:each="author : ${book.authors}">
+							<p th:text="${'of ' + author.firstName + ' ' + author.lastName}"></p>
+						</div>
+					</a>
+				</div>
+			</section>
+
+			<section class="books">
+				<h1 class="center-title">Romance</h1>
+				<div id="flex-container">
+					<a class="flex-item" th:href="@{/book/{id}(id=${book.id})}" th:each="book : ${romanceBooks}">
+						<h3 th:text="${book.title}"></h3>
+						<div th:unless="${#lists.isEmpty(book.authors)}" th:each="author : ${book.authors}">
+							<p th:text="${'of ' + author.firstName + ' ' + author.lastName}"></p>
+						</div>
+					</a>
+				</div>
+
+			</section>
+		</div>
+
+		<section id="side">
+			<div class="side-info">
+				<h1>Read&Rate</h1>
+				<p>Discover Read&Rate, the platform dedicated to those who love reading and sharing.
+					Here you can find books of all genres, leave your reviews, read those of others and contribute to
+					building a digital library free and open to all.
+					Join the community of readers, explore new stories and make your voice heard!</p>
+			</div>
+
+			<div class="side-info">
+				<h1>Author to discover</h1>
+				<div id="flex-container">
+					<a class="flex-item" th:href="@{/author/{id}(id=${randomAuthor.id})}">
+						<h3 th:text="${randomAuthor.firstName + ' ' + randomAuthor.lastName}"></h3>
+					</a>
+				</div>
+			</div>
+		</section>
+	</div>
 
 	<footer>
 

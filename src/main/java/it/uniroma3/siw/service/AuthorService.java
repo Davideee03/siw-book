@@ -4,9 +4,11 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import it.uniroma3.siw.repository.AuthorRepository;
+import it.uniroma3.siw.repository.BookRepository;
 import it.uniroma3.siw.model.Author;
 
 @Service
@@ -33,5 +35,9 @@ public class AuthorService {
 	
 	public void deleteAllById(List<Long> ids) {
 		this.authorRepository.deleteAllById(ids);
+	}
+	
+	public Author getRandomAuthor(){
+		return this.authorRepository.getRandomAuthor();
 	}
 }

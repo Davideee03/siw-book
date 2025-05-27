@@ -46,4 +46,16 @@ public class BookService {
 	public List<Book> getTop5Books(){
 		return this.bookRepository.findTopBooksByAverageMark(PageRequest.of(0, 5));
 	}
+	
+	public List<Book> getMostReviewed(){
+		return this.bookRepository.findMostReviewedBooks(PageRequest.of(0, 5));
+	}
+	
+	public List<Book> getThrillerBooks(){
+		return this.bookRepository.findThrillerBooks(PageRequest.of(0, 5));
+	}
+	
+	public List<Book> getRomanceBooks(){
+		return this.bookRepository.findRomanceBooks(PageRequest.of(0, 5));
+	}
 }

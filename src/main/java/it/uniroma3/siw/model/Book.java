@@ -9,60 +9,72 @@ import jakarta.persistence.*;
 public class Book {
 
 	@Id
-	  @GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String title;
 	private int year;
 	private String plot;
 	
+	@Enumerated(EnumType.STRING)
+    private Genre genre;
+
 	@ManyToMany
-	@JoinTable(
-	    name = "book_authors",
-	    joinColumns = @JoinColumn(name = "book_id"),
-	    inverseJoinColumns = @JoinColumn(name = "author_id")
-	)
+	@JoinTable(name = "book_authors", joinColumns = @JoinColumn(name = "book_id"), inverseJoinColumns = @JoinColumn(name = "author_id"))
 	private List<Author> authors = new ArrayList<>();
-	
+
 	@OneToMany(mappedBy = "book")
 	private List<Review> reviews = new ArrayList<>();
 
-	
 	public Long getId() {
 		return id;
 	}
-	
+
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
 	public String getTitle() {
 		return title;
 	}
+
 	public void setTitle(String title) {
 		this.title = title;
 	}
+
 	public int getYear() {
 		return year;
 	}
+
 	public void setYear(int year) {
 		this.year = year;
 	}
+
 	public List<Author> getAuthors() {
-	    return authors;
+		return authors;
 	}
+
 	public void setAuthors(List<Author> authors) {
-	    this.authors = authors;
+		this.authors = authors;
 	}
+
 	public String getPlot() {
 		return plot;
 	}
+
 	public void setPlot(String plot) {
 		this.plot = plot;
 	}
-	
-	public List<Review> getReviews(){
+
+	public List<Review> getReviews() {
 		return this.reviews;
 	}
 	
+	public Genre getGenre() {
+	    return genre;
+	}
+
+	public void setGenre(Genre genre) {
+	    this.genre = genre;
+	}
 
 }

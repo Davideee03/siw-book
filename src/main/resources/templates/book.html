@@ -2,49 +2,60 @@
 <html>
 
 <head>
-	<title th:text="${book.title + ' (' + book.year + ')'}"></title>
-	<link rel="stylesheet" href="/css/new-style.css">
+	<title th:text="${book.title} + ' (' + book.year + ')'">Default Title</title>
+	<link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body>
 	<nav>
-		<div class="nav-items">
+		<div class="nav-links">
 			<a href="/">Home</a>
 		</div>
 	</nav>
 
 	<header>
 		<div class="title">
-			<h1 th:text="${book.title}"></h1>
-			<p th:text="${book.year}"></p>
+			<h1 th:text="${book.title}">Title</h1>
 		</div>
 	</header>
 
-	<section>
-		<div id="flex-container">
-			<a class="flex-item" th:href="@{/author/{id}(id=${author.id})}" th:each="author : ${book.authors}">
-				<h3 th:text="${author.firstName + ' ' + author.lastName}"></h3>
-			</a>
+	<div class="homepage">
+		<div class="books-container">
+			<section class="books">
+				<h1>Immagine</h1>
+			</section>
 		</div>
 
-		<div class="book-author-description">
-			<h1>Plot</h1>
-			<p th:text="${#strings.isEmpty(book.plot) ? 'Unknown' : book.plot}"></p>
-		</div>
+		<section id="side">
+			<div class="side-info">
+				<h1>The book's identity card</h1>
+				<p th:text="'Year: ' + ${book.year}"></p>
+				<p th:text="'Genre: ' + ${book.genre}"></p>
+				<p th:text="${book.plot}"></p>
+			</div>
 
-		<div th:unless="${#lists.isEmpty(book.reviews)}">
-			<div class="reviews">
-				<h3>Reviews</h3>
-				<div class="review" th:each="review : ${book.reviews}">
-					<h4 th:text="${review.title}"></h4>
-					<h5 th:text="${review.mark + '/5'}"></h5>
-					<p th:text="${review.description}"></p>
+			<div class="side-info">
+				<h1>Authors</h1>
+				<div id="flex-container" th:if="${book.authors != null}">
+					<a class="flex-item" th:each="author : ${book.authors}" th:href="@{/author/{id}(id=${author.id})}">
+						<h3 th:text="${author.firstName + ' ' + author.lastName}">Author Name</h3>
+					</a>
 				</div>
 			</div>
-		</div>
+		</section>
+	</div>
 
-	</section>
 
+	<div th:unless="${#lists.isEmpty(book.reviews)}">
+		<section class="reviews">
+			<h1 class="center-title">Reviews</h1>
+			<div class="review" th:each="review : ${book.reviews}">
+				<h4 th:text="${review.title}">Review Title</h4>
+				<h5 th:text="${review.mark + '/5'}">Mark</h5>
+				<p th:text="${review.description}">Review description</p>
+			</div>
+		</section>
+	</div>
 	<footer>
 
 	</footer>
