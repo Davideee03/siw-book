@@ -33,7 +33,7 @@
 		<div class="books-container">
 			<section class="books">
 
-				<h1 class="center-title">Top rated books</h1>
+				<h2 class="center-title">Top rated books</h2>
 				<div id="flex-container">
 					<a class="flex-item" th:href="@{/book/{id}(id=${book.id})}" th:each="book : ${topBooks}">
 						<h3 th:text="${book.title}"></h3>
@@ -43,6 +43,8 @@
 					</a>
 				</div>
 			</section>
+
+			<div class="divider"></div>
 
 			<section class="books">
 				<h1 class="center-title">Thrillers</h1>
@@ -55,6 +57,8 @@
 					</a>
 				</div>
 			</section>
+
+			<div class="divider"></div>
 
 			<section class="books">
 				<h1 class="center-title">Romance</h1>
@@ -70,6 +74,8 @@
 			</section>
 		</div>
 
+		<div class="side-divider"></div>
+
 		<section id="side">
 			<div class="side-info">
 				<h1>Read&Rate</h1>
@@ -79,6 +85,8 @@
 					Join the community of readers, explore new stories and make your voice heard!</p>
 			</div>
 
+			<div class="divider"></div>
+
 			<div class="side-info">
 				<h1>Author to discover</h1>
 				<div id="flex-container">
@@ -87,12 +95,23 @@
 					</a>
 				</div>
 			</div>
+
+			<div class="divider"></div>
+
+			<div class="side-info">
+				<h1>Discover even more books!</h1>
+				<div id="flex-container">
+					<a class="button" th:href="@{/show/books}">
+						<p>View all</p>
+					</a>
+				</div>
+			</div>
+
+
 		</section>
 	</div>
 
-	<footer>
-
-	</footer>
+	<div th:replace="fragments/footer :: footer"></div>
 
 </body>
 

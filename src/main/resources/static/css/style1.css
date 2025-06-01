@@ -1,0 +1,13 @@
+.link-item {
+	color: white;
+	text-decoration: none;
+	
+	transition: opacity 0.3s ease;
+	
+	width: 100px;
+	border: 2px solid red;
+}
+
+.link-item:hover {
+	opacity: 0.5;
+}

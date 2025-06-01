@@ -50,8 +50,7 @@
 		<section class="reviews">
 			<h1 class="center-title">Reviews</h1>
 			<div class="review" th:each="review : ${book.reviews}">
-				<h4 th:text="${review.title}">Review Title</h4>
-				<h5 th:text="${review.mark + '/5'}">Mark</h5>
+				<h1 th:text="${review.title + ' ' + review.mark + '/5'}">Review Title</h1>
 				<p th:text="${review.description}">Review description</p>
 			</div>
 		</section>

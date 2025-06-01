@@ -19,6 +19,7 @@ public class HomepageController {
 
 	@GetMapping("/")
 	public String homepage(Model model) {
+		model.addAttribute("books", this.bookService.getAllBooks());
 		model.addAttribute("topBooks", this.bookService.getTop5Books());
 		model.addAttribute("thrillerBooks", this.bookService.getThrillerBooks());
 		model.addAttribute("romanceBooks", this.bookService.getRomanceBooks());
