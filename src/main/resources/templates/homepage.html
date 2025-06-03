@@ -2,9 +2,7 @@
 <html>
 
 <head>
-	<title>
-		Siw Books
-	</title>
+	<title>Read&Rate</title>
 	<link rel="stylesheet" href="/css/style.css?v=1">
 
 </head>
@@ -12,23 +10,47 @@
 <body>
 	<nav>
 		<div class="nav-links">
-			<a href="/">About</a>
-			<a href="/">Contact</a>
+			<h1>Read&Rate</h1>
+
+			<a href="/show/books">Books</a>
+			<a href="/show/authors">Authors</a>
 			<a href="/">Login</a>
 		</div>
 	</nav>
 
-	<header>
-		<h1>Read&Rate</h1>
-		<p>All your book in one click!</p>
-
-	</header>
-
-	<section class="hero">
-		<p>Editor's</p>
-		<h1>Suggestion</h1>
+	<h1 class="center-title">Top rated books</h1>
+	<section id="flex-container">
+		<a class="flex-item" th:href="@{/book/{id}(id=${book.id})}" th:each="book : ${topBooks}">
+			<h3 th:text="${book.title}"></h3>
+			<div th:unless="${#lists.isEmpty(book.authors)}" th:each="author : ${book.authors}">
+				<p th:text="${'of ' + author.firstName + ' ' + author.lastName}"></p>
+			</div>
+		</a>
 	</section>
 
+	<h1 class="center-title">Thrillers</h1>
+	<section id="flex-container">
+		<a class="flex-item" th:href="@{/book/{id}(id=${book.id})}" th:each="book : ${thrillerBooks}">
+			<h3 th:text="${book.title}"></h3>
+			<div th:unless="${#lists.isEmpty(book.authors)}" th:each="author : ${book.authors}">
+				<p th:text="${'of ' + author.firstName + ' ' + author.lastName}"></p>
+			</div>
+		</a>
+	</section>
+
+	<h1 class="center-title">Romance</h1>
+	<section id="flex-container">
+		<a class="flex-item" th:href="@{/book/{id}(id=${book.id})}" th:each="book : ${romanceBooks}">
+			<h3 th:text="${book.title}"></h3>
+			<div th:unless="${#lists.isEmpty(book.authors)}" th:each="author : ${book.authors}">
+				<p th:text="${'of ' + author.firstName + ' ' + author.lastName}"></p>
+			</div>
+		</a>
+	</section>
+
+
+
+	<!--
 	<div class="homepage">
 		<div class="books-container">
 			<section class="books">
@@ -110,7 +132,7 @@
 
 		</section>
 	</div>
-
+	-->
 	<div th:replace="fragments/footer :: footer"></div>
 
 </body>

@@ -7,18 +7,57 @@
 </head>
 
 <body>
-	<nav>
-		<div class="nav-links">
-			<a href="/">Home</a>
-		</div>
-	</nav>
+	<div th:replace="fragments/navbar :: navbar"></div>
 
-	<header>
-		<div class="title">
-			<h1 th:text="${book.title}">Title</h1>
-		</div>
-	</header>
+	<h1 class="center-title" th:text="${book.title}"></h1>
 
+	<section id="flex-container">
+		<div class="description"></div>
+		<div class="description">
+			<h2>The book's identity card</h2>
+			<h3>Year: </h3>
+			<p th:text="${book.year}"></p>
+			<h3>Genre: </h3>
+			<p th:text="${book.genre}"></p>
+			<h3>Plot: </h3>
+			<p th:text="${book.plot}"></p>
+
+			<h1>Authors</h1>
+			<div id="author-flex-container" th:if="${book.authors != null}">
+				<a class="flex-item" th:each="author : ${book.authors}" th:href="@{/author/{id}(id=${author.id})}">
+					<h3 th:text="${author.firstName + ' ' + author.lastName}">Author Name</h3>
+				</a>
+			</div>
+		</div>
+	</section>
+
+	<div class="long-divider"></div>
+
+	<div th:unless="${#lists.isEmpty(book.reviews)}">
+		<section id="reviews">
+			<h1>Reviews</h1>
+			<div class="review" th:each="review : ${book.reviews}">
+				<h3 th:text="${review.title + ' ' + review.mark + '/5'}">Review Title</h3>
+				<p th:text="${review.description}">Review description</p>
+			</div>
+		</section>
+	</div>
+
+	<div class="long-divider"></div>
+
+	<h2 class="center-title">More by the author</h2>
+	<section>
+		<div id="flex-container">
+			<a class="flex-item" th:href="@{/book/{id}(id=${book.id})}" th:each="book : ${booksSameGenre}">
+				<h3 th:text="${book.title}"></h3>
+				<div th:unless="${#lists.isEmpty(book.authors)}" th:each="author : ${book.authors}">
+					<p th:text="${'of ' + author.firstName + ' ' + author.lastName}"></p>
+				</div>
+			</a>
+		</div>
+	</section>
+
+	<!--
 	<div class="homepage">
 		<div class="books-container">
 			<section class="books">
@@ -55,9 +94,8 @@
 			</div>
 		</section>
 	</div>
-	<footer>
-
-	</footer>
+	-->
+	<div th:replace="fragments/footer :: footer"></div>
 </body>
 
 </html>

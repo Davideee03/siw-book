@@ -9,10 +9,16 @@
 <body>
 	<div th:replace="fragments/navbar :: navbar"></div>
 
-	<header>
-		<h1>Read&Rate</h1>
-	</header>
-
+	<h1 class="center-title">Our books</h1>
+	<div id="flex-container">
+		<a class="flex-item" th:href="@{/book/{id}(id=${book.id})}" th:each="book : ${books}">
+			<h3 th:text="${book.title}"></h3>
+			<div th:unless="${#lists.isEmpty(book.authors)}" th:each="author : ${book.authors}">
+				<p th:text="${'of ' + author.firstName + ' ' + author.lastName}"></p>
+			</div>
+		</a>
+	</div>
+	<!--
 	<div class="homepage">
 		<div class="books-container">
 			<section class="books">
@@ -29,7 +35,7 @@
 			</section>
 		</div>
 	</div>
-
+	-->
 	<div th:replace="fragments/footer :: footer"></div>
 
 

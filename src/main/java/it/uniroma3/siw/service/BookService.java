@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import it.uniroma3.siw.repository.BookRepository;
 import it.uniroma3.siw.model.Author;
 import it.uniroma3.siw.model.Book;
+import it.uniroma3.siw.model.Genre;
 
 @Service
 public class BookService {
@@ -57,5 +58,9 @@ public class BookService {
 	
 	public List<Book> getRomanceBooks(){
 		return this.bookRepository.findRomanceBooks(PageRequest.of(0, 5));
+	}
+
+	public List<Book> findBooksByGenre(Genre genre) {
+		return this.bookRepository.findByGenre(genre);
 	}
 }

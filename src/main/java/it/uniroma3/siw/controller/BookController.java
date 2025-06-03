@@ -44,6 +44,7 @@ public class BookController {
 		//Check the presence of the book
 		if(book!=null) {
 			model.addAttribute("book", book);
+			model.addAttribute("booksSameGenre", this.bookService.findBooksByGenre(book.getGenre()));
 			return "book.html";
 		}
 		
