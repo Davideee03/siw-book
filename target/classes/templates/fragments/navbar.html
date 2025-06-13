@@ -1,8 +1,12 @@
 <nav th:fragment="navbar">
 	<div class="nav-links">
-		<h1>Read&Rate</h1>
-
-		<a class="nav-link" href="/">Home</a>
-		<a class="nav-link" href="/">Login</a>
+		<a href="/">
+			<h1>Read&Rate</h1>
+		</a>
+		<div class="nav-menu">
+			<a href="/show/books">Books</a>
+			<a href="/show/authors">Authors</a>
+			<a href="/">Login</a>
+		</div>
 	</div>
 </nav>

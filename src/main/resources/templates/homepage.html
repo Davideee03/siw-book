@@ -4,6 +4,7 @@
 <head>
 	<title>Read&Rate</title>
 	<link rel="stylesheet" href="/css/style.css?v=1">
+	<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Open+Sans&display=swap" rel="stylesheet">
 
 </head>
 
@@ -11,19 +12,21 @@
 	<nav>
 		<div class="nav-links">
 			<h1>Read&Rate</h1>
-
-			<a href="/show/books">Books</a>
-			<a href="/show/authors">Authors</a>
-			<a href="/">Login</a>
+			<div class="nav-menu">
+				<a href="/show/books">Books</a>
+				<a href="/show/authors">Authors</a>
+				<a href="/">Login</a>
+			</div>
 		</div>
 	</nav>
+
 
 	<h1 class="center-title">Top rated books</h1>
 	<section id="flex-container">
 		<a class="flex-item" th:href="@{/book/{id}(id=${book.id})}" th:each="book : ${topBooks}">
-			<h3 th:text="${book.title}"></h3>
+			<h3 class="flex-title" th:text="${book.title}"></h3>
 			<div th:unless="${#lists.isEmpty(book.authors)}" th:each="author : ${book.authors}">
-				<p th:text="${'of ' + author.firstName + ' ' + author.lastName}"></p>
+				<p class="flex-description" th:text="${'of ' + author.firstName + ' ' + author.lastName}"></p>
 			</div>
 		</a>
 	</section>

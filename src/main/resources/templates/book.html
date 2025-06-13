@@ -31,7 +31,7 @@
 		</div>
 	</section>
 
-	<div class="long-divider"></div>
+	<div th:unless="${#lists.isEmpty(book.reviews)}" class="long-divider"></div>
 
 	<div th:unless="${#lists.isEmpty(book.reviews)}">
 		<section id="reviews">
@@ -43,9 +43,9 @@
 		</section>
 	</div>
 
-	<div class="long-divider"></div>
+	<div th:unless="${#lists.isEmpty(book.reviews)}" class="long-divider"></div>
 
-	<h2 class="center-title">More by the author</h2>
+	<h2 class="center-title">Something similar?</h2>
 	<section>
 		<div id="flex-container">
 			<a class="flex-item" th:href="@{/book/{id}(id=${book.id})}" th:each="book : ${booksSameGenre}">
