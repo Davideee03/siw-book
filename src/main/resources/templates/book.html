@@ -2,7 +2,7 @@
 <html>
 
 <head>
-	<title th:text="${book.title} + ' (' + book.year + ')'">Default Title</title>
+	<title th:text="${book.title + ' (' + book.year + ')'}">Default Title</title>
 	<link rel="stylesheet" href="/css/style.css">
 </head>
 
@@ -11,14 +11,16 @@
 
 	<h1 class="center-title" th:text="${book.title}"></h1>
 
-	<section id="flex-container">
-		
+	<section id="descriptions-container">
+
 		<div class="description">
-			<div class="book-photo-gallery" th:each="photo : ${photos}">
-				<img th:src="@{'/bookPhoto/' + ${photo.id}}" alt="Foto libro"/>
+			<div class="photo-gallery">
+				<div th:each="photo : ${photos}">
+					<img th:src="@{'/bookPhoto/' + ${photo.id}}" alt="Foto libro" />
+				</div>
 			</div>
 		</div>
-		
+
 		<div class="description">
 			<h2>The book's identity card</h2>
 			<h3>Year: </h3>

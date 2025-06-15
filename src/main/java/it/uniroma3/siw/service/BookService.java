@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import it.uniroma3.siw.repository.BookRepository;
 import it.uniroma3.siw.model.Author;
@@ -18,8 +19,16 @@ public class BookService {
 	@Autowired
 	private BookRepository bookRepository;
 	
+	@Transactional(readOnly = true)
 	public List<Book> getAllBooks(){
-		return (List<Book>) this.bookRepository.findAll();
+		List<Book> books = (List<Book>) bookRepository.findAll();
+        // Forza caricamento degli ID delle foto (senza toccare il blob)
+        books.forEach(book -> {
+            if (!book.getPhotos().isEmpty()) {
+                book.getPhotos().get(0).getId();
+            }
+        });
+		return books;
 	}
 	
 	public Book getBookById(Long id) {

@@ -52,7 +52,6 @@ public class BookController {
 
 		// Check the presence of the book
 		if (book != null) {
-			System.out.println(book.getPhotos().size());
 			model.addAttribute("book", book);
 			model.addAttribute("booksSameGenre", this.bookService.findBooksByGenre(book.getGenre()));
 			model.addAttribute("photos", book.getPhotos());
@@ -72,7 +71,7 @@ public class BookController {
 
 	@Transactional
 	@PostMapping("/book")
-	public String saveBook(@ModelAttribute("book") Book book, @RequestParam("photo") MultipartFile photo,
+	public String saveBook(@ModelAttribute("book") Book book, @RequestParam("photo") MultipartFile[] photos,
 			@RequestParam("selectedIds") List<Long> ids, Model model) {
 
 		// Associa gli autori selezionati
@@ -82,16 +81,18 @@ public class BookController {
 		this.bookService.save(book);
 
 		// Se c'è una foto allegata, la salviamo
-		if (!photo.isEmpty()) {
-			try {
-				BookPhoto bookPhoto = new BookPhoto();
-				bookPhoto.setData(photo.getBytes());
-				bookPhoto.setBook(book);
-				this.bookPhotoService.save(bookPhoto); // salva in DB
-			} catch (IOException e) {
-				e.printStackTrace();
-				model.addAttribute("errorMessage", "Errore nel caricamento della foto");
-				return "book/form"; // o la view di errore
+		for (MultipartFile photo : photos) {
+			if (!photo.isEmpty()) {
+				try {
+					BookPhoto bookPhoto = new BookPhoto();
+					bookPhoto.setData(photo.getBytes());
+					bookPhoto.setBook(book);
+					this.bookPhotoService.save(bookPhoto); // salva in DB
+				} catch (IOException e) {
+					e.printStackTrace();
+					model.addAttribute("errorMessage", "Errore nel caricamento della foto");
+					return "book/form"; // o la view di errore
+				}
 			}
 		}
 

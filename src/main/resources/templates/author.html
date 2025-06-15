@@ -9,7 +9,17 @@
 	<div th:replace="fragments/navbar :: navbar"></div>
 
 	<section id="flex-container">
-		<div class="description"></div>
+		<div class="description">
+
+			<div class="description">
+				<div class="photo-gallery">
+					<div th:each="photo : ${photos}">
+						<img th:src="@{'/authorPhoto/' + ${photo.id}}" alt="Foto autore" />
+					</div>
+				</div>
+			</div>
+
+		</div>
 		<div class="description">
 			<h1 th:text="${author.firstName} + ' ' + ${author.lastName}"></h1>
 			<h3>Birth: </h3>
@@ -37,7 +47,7 @@
 	</div>
 
 	<div class="white-margin"></div>
-	
+
 	<div th:replace="fragments/footer :: footer"></div>
 </body>
 

@@ -22,6 +22,11 @@
 		<div>
 			Death Date: <span><input type="date" th:field="${author.deathDate}"></input></span>
 		</div>
+
+		<label for="file">Seleziona immagine:</label>
+		<input type="file" name="photo" accept="image/*" required />
+
+
 		<div>
 			<span><button type="submit">Submit</button></span>
 		</div>
