@@ -24,7 +24,10 @@ public class Book {
 
 	@OneToMany(mappedBy = "book")
 	private List<Review> reviews = new ArrayList<>();
-
+	
+	@OneToMany(mappedBy = "book")
+	private List<BookPhoto> photos = new ArrayList<>();
+	
 	public Long getId() {
 		return id;
 	}
@@ -76,5 +79,12 @@ public class Book {
 	public void setGenre(Genre genre) {
 	    this.genre = genre;
 	}
-
+	
+	public List<BookPhoto> getPhotos(){
+		return this.photos;
+	}
+	
+	public void addPhoto(BookPhoto bookPhoto) {
+		this.photos.add(bookPhoto);
+	}
 }
