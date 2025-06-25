@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import it.uniroma3.siw.model.Author;
 import it.uniroma3.siw.model.Book;
 import it.uniroma3.siw.model.BookPhoto;
+import it.uniroma3.siw.model.Genre;
 import it.uniroma3.siw.service.AuthorService;
 import it.uniroma3.siw.service.BookPhotoService;
 import it.uniroma3.siw.service.BookService;
@@ -66,6 +67,7 @@ public class BookController {
 	public String formNewBook(Model model) {
 		model.addAttribute("book", new Book());
 		model.addAttribute("authors", this.authorService.getAllAuthors());
+		model.addAttribute("genres", Genre.values());
 		return "formNewBook.html";
 	}
 
@@ -137,8 +139,16 @@ public class BookController {
 		return "formDeleteBooks.html";
 	}
 
+	@Transactional
 	@PostMapping("/books-deleted")
 	public String deletedBooks(@RequestParam("selectedIds") List<Long> ids) {
+		
+		for(Book book : this.bookService.getBooksByIds(ids)) {
+			for(BookPhoto bookPhoto : book.getPhotos()) {
+				this.bookPhotoService.deletePhoto(bookPhoto);
+			}
+		}
+		
 		this.bookService.deleteAllById(ids);
 
 		return "redirect:/show/books";

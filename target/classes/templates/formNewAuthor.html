@@ -3,34 +3,54 @@
 
 <head>
 	<title>Form New Author</title>
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Playfair+Display&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body>
-	<form th:action="@{/author}" method="POST" th:object="${author}" enctype="multipart/form-data">
-		<div>
-			Name: <span><input required type="text" th:field="${author.firstName}"></input></span>
-		</div>
-		<div>
-			Surname: <span><input required type="text" th:field="${author.lastName}"></input></span>
-		</div>
-		<div>
-			Nationality: <span><input required type="text" th:field="${author.nationality}"></input></span>
-		</div>
-		<div>
-			Birth Date: <span><input required type="date" th:field="${author.birthDate}"></input></span>
-		</div>
-		<div>
-			Death Date: <span><input type="date" th:field="${author.deathDate}"></input></span>
-		</div>
+	<div th:replace="fragments/navbar :: navbar"></div>
 
-		<label for="file">Seleziona immagine:</label>
-		<input type="file" name="uploadedImage" accept="image/*" required />
+	<div class="form-container">
+		<form th:action="@{/author}" method="POST" th:object="${author}" enctype="multipart/form-data" class="book-form">
 
+			<div class="form-group">
+				<label for="firstName">Name:</label>
+				<input required type="text" th:field="${author.firstName}" id="firstName" class="input-field" />
+			</div>
 
-		<div>
-			<span><button type="submit">Submit</button></span>
-		</div>
-	</form>
+			<div class="form-group">
+				<label for="lastName">Surname:</label>
+				<input required type="text" th:field="${author.lastName}" id="lastName" class="input-field" />
+			</div>
+
+			<div class="form-group">
+				<label for="nationality">Nationality:</label>
+				<input required type="text" th:field="${author.nationality}" id="nationality" class="input-field" />
+			</div>
+
+			<div class="form-group">
+				<label for="birthDate">Birth Date:</label>
+				<input required type="date" th:field="${author.birthDate}" id="birthDate" class="input-field" />
+			</div>
+
+			<div class="form-group">
+				<label for="deathDate">Death Date:</label>
+				<input type="date" th:field="${author.deathDate}" id="deathDate" class="input-field" />
+			</div>
+
+			<div class="form-group">
+				<label for="uploadedImage">Seleziona immagine:</label>
+				<input type="file" name="uploadedImage" accept="image/*" required class="input-field" />
+			</div>
+
+			<div class="form-group">
+				<button type="submit" class="submit-button">Submit</button>
+			</div>
+
+		</form>
+	</div>
+
+	<div th:replace="fragments/footer :: footer"></div>
 </body>
 
 </html>

@@ -3,6 +3,7 @@
 
 <head>
 	<title>Books</title>
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Playfair+Display&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="/css/style.css?v=1">
 </head>
 
@@ -20,7 +21,7 @@
 
 			<h3 th:text="${book.title}"></h3>
 			<p>
-				<span th:if="${not #lists.isEmpty(book.authors)}">of </span>
+				<span th:if="${book.authors != null and !#lists.isEmpty(book.authors)}">of </span>
 				<span th:each="author, iterStat : ${book.authors}">
 					<span th:text="${author.firstName + ' ' + author.lastName}"></span><span th:if="${!iterStat.last}">,
 					</span>

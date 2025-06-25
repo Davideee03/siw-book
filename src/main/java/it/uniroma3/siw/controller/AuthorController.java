@@ -55,7 +55,7 @@ public class AuthorController {
 	            authorPhoto.setAuthor(author);
 	            authorPhotoService.save(authorPhoto);
 	        } catch (IOException e) {
-	            model.addAttribute("errorMessage", "Errore nel caricamento della foto");
+	            model.addAttribute("errorMessage", "Error loading photo");
 	            return "error.html";
 	        }
 	    }

@@ -3,36 +3,64 @@
 
 <head>
 	<title>Add new book</title>
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Playfair+Display&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body>
-	<form th:action="@{/book}" method="POST" th:object="${book}" enctype="multipart/form-data">
-		<div>Title: <span><input required type="text" th:field="${book.title}" /></span></div>
-		<div>Year: <span><input required type="number" th:field="${book.year}" /> </span></div>
-		<div>Plot: <span><input type="text" th:field="${book.plot}" /> </span></div>
-
-		<div th:each="author:${authors}">
-			<div>
-				<input type="checkbox" name="selectedIds" th:value="${author.id}">
-				<span th:text="${author.firstName} + ' ' + ${author.lastName}"></span>
+	<div th:replace="fragments/navbar :: navbar"></div>
+	
+	<div class="form-container">
+		<form th:action="@{/book}" method="POST" th:object="${book}" enctype="multipart/form-data" class="book-form">
+			
+			<div class="form-group">
+				<label for="title">Title:</label>
+				<input required type="text" th:field="${book.title}" id="title" class="input-field" />
 			</div>
 
-		</div>
+			<div class="form-group">
+				<label for="year">Year:</label>
+				<input required type="number" th:field="${book.year}" id="year" class="input-field" />
+			</div>
 
-		<label for="file">Seleziona immagine:</label>
-		<input type="file" name="photo" accept="image/*" required />
-		<label for="file">Seleziona immagine:</label>
-		<input type="file" name="photo" accept="image/*" />
-		<label for="file">Seleziona immagine:</label>
-		<input type="file" name="photo" accept="image/*" />
-		<label for="file">Seleziona immagine:</label>
-		<input type="file" name="photo" accept="image/*" />
-		<label for="file">Seleziona immagine:</label>
-		<input type="file" name="photo" accept="image/*" />
+			<div class="form-group">
+				<label for="plot">Plot:</label>
+				<input type="text" th:field="${book.plot}" id="plot" class="input-field" />
+			</div>
 
+			<div class="form-group">
+				<label for="genre">Genre:</label>
+				<select th:field="*{genre}" id="genre" class="input-field">
+					<option th:each="g : ${genres}" th:value="${g}" th:text="${g}"></option>
+				</select>
+			</div>
 
-		<div><span><button type="submit">Submit</button></span></div>
-	</form>
+			<div class="authors-container">
+				<label for="author">Author(s): </label>
+				<div th:each="author : ${authors}" class="author-checkbox">
+					<input type="checkbox" name="selectedIds" th:value="${author.id}" />
+					<span th:text="${author.firstName} + ' ' + ${author.lastName}"></span>
+				</div>
+			</div>
+			
+			
+
+			<div class="form-group">
+				<label>Seleziona immagini:</label>
+				<input type="file" name="photo" accept="image/*" required class="input-field" />
+				<input type="file" name="photo" accept="image/*" class="input-field" />
+				<input type="file" name="photo" accept="image/*" class="input-field" />
+				<input type="file" name="photo" accept="image/*" class="input-field" />
+				<input type="file" name="photo" accept="image/*" class="input-field" />
+			</div>
+
+			<div class="form-group">
+				<button type="submit" class="submit-button">Submit</button>
+			</div>
+		</form>
+	</div>
+	
+	<div th:replace="fragments/footer :: footer"></div>
 </body>
 
 </html>

@@ -13,6 +13,7 @@ public class Book {
 	private Long id;
 	private String title;
 	private int year;
+	
 	private String plot;
 	
 	@Enumerated(EnumType.STRING)

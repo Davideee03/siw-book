@@ -28,5 +28,9 @@ public class BookPhotoService {
     public List<BookPhoto> findAll() {
         return (List<BookPhoto>) this.bookPhotoRepository.findAll();
     }
+	
+	public void deletePhoto(BookPhoto bookPhoto) {
+		this.bookPhotoRepository.delete(bookPhoto);
+	}
 }
 

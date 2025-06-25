@@ -1,9 +1,8 @@
 body {
 	display: flex;
-	justify-content: center;
-	align-items: center;
-
 	flex-direction: column;
+	min-height: 100vh;
+
 	margin: 0;
 	padding-top: 100px;
 
@@ -11,6 +10,9 @@ body {
 
 	background-color: #FAF9F6;
 	color: #333;
+
+	justify-content: flex-start;
+	align-items: center;
 }
 
 nav {
@@ -272,16 +274,92 @@ nav {
 	height: 200px;
 }
 
+.form-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	
+	width: 100%;
+	max-width: 600px;
+	
+	padding: 40px;
+	margin-top: 150px;
+	
+	background-color: white;
+	border-radius: 15px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.book-form {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+.form-group {
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+}
+
+.input-field {
+	padding: 8px;
+	border: 1px solid #ccc;
+	border-radius: 6px;
+	font-size: 16px;
+}
+
+.authors-container {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.author-checkbox {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.submit-button {
+	background-color: #444;
+	color: white;
+	padding: 10px;
+	border: none;
+	border-radius: 6px;
+	cursor: pointer;
+	font-size: 16px;
+	transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+	background-color: #666;
+}
+
+.error-message {
+	background-color: #ffe6e6;
+	color: #cc0000;
+	border: 1px solid #ffcccc;
+	padding: 12px 20px;
+	border-radius: 8px;
+	font-size: 16px;
+	font-weight: 500;
+	margin: 20px auto;
+	max-width: 1000px;
+	box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
+}
+
+
 footer {
 	display: flex;
 	align-items: center;
 	justify-content: center;
 
 	background-color: #262626;
-	margin-top: 70px;
-
 	width: 100%;
 	height: 200px;
-
 	color: white;
+
+	margin-top: auto;
 }

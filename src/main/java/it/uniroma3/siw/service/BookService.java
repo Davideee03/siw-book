@@ -27,6 +27,8 @@ public class BookService {
 			if (!book.getPhotos().isEmpty()) {
 				book.getPhotos().get(0).getId();
 			}
+			
+			this.getAuthors(book.getId());
 		});
 		return books;
 	}
@@ -84,5 +86,9 @@ public class BookService {
 	@Transactional(readOnly = true)
 	public List<Book> findBooksByGenre(Genre genre) {
 		return this.bookRepository.findByGenre(genre);
+	}
+	
+	public List<Book> getBooksByIds(List<Long> ids){
+		return (List<Book>) this.bookRepository.findAllById(ids);
 	}
 }

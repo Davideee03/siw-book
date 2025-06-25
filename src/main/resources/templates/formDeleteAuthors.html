@@ -3,19 +3,29 @@
 
 <head>
 	<title>Delete Authors</title>
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Playfair+Display&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body>
-	<form th:action="@{/authors-deleted}" method="post">
-		<div th:each="author : ${authors}">
-			<h1>
-				<input type="checkbox" name="selectedIds" th:value="${author.id}">
-				<span th:text="${author.firstName} + ' ' + ${author.lastName}"></span>
-			</h1>
-		</div>
+	<div th:replace="fragments/navbar :: navbar"></div>
 
-		<button type="submit">Delete Selected</button>
-	</form>
+	<div class="form-container">
+		<form th:action="@{/authors-deleted}" method="post" class="book-form">
+			<div class="form-group">
+				<label>Seleziona autori da eliminare:</label>
+				<div th:each="author : ${authors}" class="author-checkbox">
+					<input type="checkbox" name="selectedIds" th:value="${author.id}" />
+					<span th:text="${author.firstName} + ' ' + ${author.lastName}"></span>
+				</div>
+			</div>
+			<div class="form-group">
+				<button type="submit" class="submit-button">Delete Selected</button>
+			</div>
+		</form>
+	</div>
+
+	<div th:replace="fragments/footer :: footer"></div>
 </body>
 
 </html>
