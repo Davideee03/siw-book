@@ -12,6 +12,10 @@
 	<h1 class="center-title">Our authors</h1>
 	<div id="flex-container">
 		<a class="flex-item" th:each="author : ${authors}" th:href="@{/author/{id}(id=${author.id})}">
+			<div class="photo-container">
+				<img th:if="${author.authorPhoto != null}" th:src="@{'/authorPhoto/' + ${author.authorPhoto.id}}"
+					alt="Foto di [[${author.firstName}]]">
+			</div>
 			<h3 th:text="${author.firstName + ' ' + author.lastName}">Author Name</h3>
 		</a>
 	</div>

@@ -2,6 +2,7 @@ package it.uniroma3.siw.model;
 
 import jakarta.persistence.Basic;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -17,7 +18,7 @@ public class BookPhoto {
     private Long id;
 
     @Lob
-    @Basic(optional = false)
+    @Basic(fetch = FetchType.EAGER, optional = false)
     private byte[] data;
 
     @ManyToOne

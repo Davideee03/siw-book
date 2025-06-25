@@ -2,12 +2,14 @@ package it.uniroma3.siw.model;
 
 import jakarta.persistence.Basic;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class AuthorPhoto {
@@ -17,10 +19,10 @@ public class AuthorPhoto {
     private Long id;
 
     @Lob
-    @Basic(optional = false)
+    @Basic(fetch = FetchType.LAZY, optional = false)
     private byte[] data;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "author_id")
     private Author author;
 
@@ -57,5 +59,10 @@ public class AuthorPhoto {
 
     public void setAuthor(Author author) {
         this.author = author;
+    }
+
+    @Override
+    public String toString() {
+        return "AuthorPhoto{id=" + id + ", author=" + (author != null ? author.getId() : "null") + "}";
     }
 }

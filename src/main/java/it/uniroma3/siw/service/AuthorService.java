@@ -1,43 +1,62 @@
 package it.uniroma3.siw.service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import it.uniroma3.siw.repository.AuthorRepository;
-import it.uniroma3.siw.repository.BookRepository;
 import it.uniroma3.siw.model.Author;
+import it.uniroma3.siw.model.Book;
+import it.uniroma3.siw.repository.AuthorRepository;
 
 @Service
 public class AuthorService {
 
 	@Autowired
 	private AuthorRepository authorRepository;
-	
-	public List<Author> showAuthors(){
+
+	public List<Author> getAllAuthors(){
 		return (List<Author>) this.authorRepository.findAll();
 	}
-	
-	public Author getAuthorById(Long id){
+
+	public Author getAuthorById(Long id) {
 		return this.authorRepository.findById(id).orElse(null);
 	}
-	
-	public List<Author> getAllAuthorsById(List<Long> ids){
+
+	public List<Author> getAllAuthorsById(List<Long> ids) {
 		return (List<Author>) this.authorRepository.findAllById(ids);
 	}
-	
+
 	public Author save(Author author) {
 		return this.authorRepository.save(author);
 	}
-	
+
 	public void deleteAllById(List<Long> ids) {
 		this.authorRepository.deleteAllById(ids);
 	}
-	
-	public Author getRandomAuthor(){
+
+	public Author getRandomAuthor() {
 		return this.authorRepository.getRandomAuthor();
+	}
+
+	public Long count() {
+		return this.authorRepository.count();
+	}
+
+	public List<Book> getBooks(Long id) {
+		Author author = this.getAuthorById(id);
+		return (author != null) ? author.getBooks() : List.of();
+	}
+	
+	public List<Long> getAuthorIds(List<Author> authors){
+		List<Long> ids = new ArrayList<>();
+		
+		for (Author author : authors) {
+			ids.add(author.getId());
+		}
+		
+		return ids;
 	}
 }

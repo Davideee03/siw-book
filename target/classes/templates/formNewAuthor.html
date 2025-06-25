@@ -6,7 +6,7 @@
 </head>
 
 <body>
-	<form th:action="@{/author}" method="POST" th:object="${author}">
+	<form th:action="@{/author}" method="POST" th:object="${author}" enctype="multipart/form-data">
 		<div>
 			Name: <span><input required type="text" th:field="${author.firstName}"></input></span>
 		</div>
@@ -24,7 +24,7 @@
 		</div>
 
 		<label for="file">Seleziona immagine:</label>
-		<input type="file" name="photo" accept="image/*" required />
+		<input type="file" name="uploadedImage" accept="image/*" required />
 
 
 		<div>

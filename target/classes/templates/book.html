@@ -14,6 +14,7 @@
 	<section id="descriptions-container">
 
 		<div class="description">
+
 			<div class="photo-gallery">
 				<div th:each="photo : ${photos}">
 					<img th:src="@{'/bookPhoto/' + ${photo.id}}" alt="Foto libro" />
@@ -31,17 +32,21 @@
 			<p th:text="${book.plot}"></p>
 
 			<h1>Authors</h1>
-			<div id="author-flex-container" th:if="${book.authors != null}">
-				<a class="flex-item" th:each="author : ${book.authors}" th:href="@{/author/{id}(id=${author.id})}">
+			<div id="author-flex-container" th:if="${authors != null}">
+				<a class="flex-item" th:each="author : ${authors}" th:href="@{/author/{id}(id=${author.id})}">
+					<div class="photo-container">
+						<img th:if="${author.authorPhoto != null}" th:src="@{'/authorPhoto/' + ${author.authorPhoto.id}}" alt="Foto di [[${author.firstName}]]">
+					</div>
 					<h3 th:text="${author.firstName + ' ' + author.lastName}">Author Name</h3>
 				</a>
 			</div>
 		</div>
 	</section>
 
-	<div th:unless="${#lists.isEmpty(book.reviews)}" class="long-divider"></div>
 
+	<div th:unless="${#lists.isEmpty(book.reviews)}" class="long-divider"></div>
 	<div th:unless="${#lists.isEmpty(book.reviews)}">
+
 		<section id="reviews">
 			<h1>Reviews</h1>
 			<div class="review" th:each="review : ${book.reviews}">
@@ -58,51 +63,12 @@
 		<div id="flex-container">
 			<a class="flex-item" th:href="@{/book/{id}(id=${book.id})}" th:each="book : ${booksSameGenre}">
 				<h3 th:text="${book.title}"></h3>
-				<div th:unless="${#lists.isEmpty(book.authors)}" th:each="author : ${book.authors}">
+				<div th:unless="${#lists.isEmpty(authors)}" th:each="author : ${authors}">
 					<p th:text="${'of ' + author.firstName + ' ' + author.lastName}"></p>
 				</div>
 			</a>
 		</div>
 	</section>
-
-	<!--
-	<div class="homepage">
-		<div class="books-container">
-			<section class="books">
-				<h1>Immagine</h1>
-			</section>
-		</div>
-
-		<section id="side">
-			<div class="side-info">
-				<h1>The book's identity card</h1>
-				<p th:text="'Year: ' + ${book.year}"></p>
-				<p th:text="'Genre: ' + ${book.genre}"></p>
-				<p th:text="${book.plot}"></p>
-			</div>
-
-			<div class="side-info">
-				<h1>Authors</h1>
-				<div id="flex-container" th:if="${book.authors != null}">
-					<a class="flex-item" th:each="author : ${book.authors}" th:href="@{/author/{id}(id=${author.id})}">
-						<h3 th:text="${author.firstName + ' ' + author.lastName}">Author Name</h3>
-					</a>
-				</div>
-			</div>
-		</section>
-	</div>
-
-
-	<div th:unless="${#lists.isEmpty(book.reviews)}">
-		<section class="reviews">
-			<h1 class="center-title">Reviews</h1>
-			<div class="review" th:each="review : ${book.reviews}">
-				<h1 th:text="${review.title + ' ' + review.mark + '/5'}">Review Title</h1>
-				<p th:text="${review.description}">Review description</p>
-			</div>
-		</section>
-	</div>
-	-->
 	<div th:replace="fragments/footer :: footer"></div>
 </body>
 

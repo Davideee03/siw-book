@@ -45,7 +45,6 @@ public class BookController {
 		return "emptyLibrary.html";
 	}
 
-	@Transactional
 	@GetMapping("/book/{id}")
 	public String getBookById(@PathVariable("id") Long id, Model model) {
 		Book book = bookService.getBookById(id);
@@ -53,6 +52,7 @@ public class BookController {
 		// Check the presence of the book
 		if (book != null) {
 			model.addAttribute("book", book);
+			model.addAttribute("authors", this.bookService.getAuthors(id));
 			model.addAttribute("booksSameGenre", this.bookService.findBooksByGenre(book.getGenre()));
 			model.addAttribute("photos", book.getPhotos());
 			return "book.html";
@@ -65,7 +65,7 @@ public class BookController {
 	@GetMapping("/administrator/formNewBook")
 	public String formNewBook(Model model) {
 		model.addAttribute("book", new Book());
-		model.addAttribute("authors", this.authorService.showAuthors());
+		model.addAttribute("authors", this.authorService.getAllAuthors());
 		return "formNewBook.html";
 	}
 
@@ -107,7 +107,7 @@ public class BookController {
 
 			model.addAttribute("book", book);
 			model.addAttribute("id", id);
-			model.addAttribute("authors", this.authorService.showAuthors());
+			model.addAttribute("authors", this.authorService.getAllAuthors());
 			return "formUpdateBook.html";
 		}
 

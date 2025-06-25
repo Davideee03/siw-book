@@ -18,57 +18,70 @@ public class BookService {
 
 	@Autowired
 	private BookRepository bookRepository;
-	
+
 	@Transactional(readOnly = true)
-	public List<Book> getAllBooks(){
+	public List<Book> getAllBooks() {
 		List<Book> books = (List<Book>) bookRepository.findAll();
-        // Forza caricamento degli ID delle foto (senza toccare il blob)
-        books.forEach(book -> {
-            if (!book.getPhotos().isEmpty()) {
-                book.getPhotos().get(0).getId();
-            }
-        });
+		// Forza caricamento degli ID delle foto (senza toccare il blob)
+		books.forEach(book -> {
+			if (!book.getPhotos().isEmpty()) {
+				book.getPhotos().get(0).getId();
+			}
+		});
 		return books;
 	}
-	
+
+	@Transactional(readOnly = true)
 	public Book getBookById(Long id) {
-		return this.bookRepository.findById(id).orElse(null);
+		Book book = bookRepository.findById(id).orElse(null);
+		// accedi a book.getPhotos() qui, dentro la transazione
+		if (book != null)
+			book.getPhotos().size(); // forza inizializzazione
+		return book;
 	}
-	
+
 	public Book save(Book book) {
 		return this.bookRepository.save(book);
 	}
-	
+
 	public void deleteAllById(List<Long> ids) {
 		this.bookRepository.deleteAllById(ids);
 	}
-	
+
 	public Long count() {
 		return this.bookRepository.count();
 	}
-	
-	public List<Author> getAuthors(Long  id){
+
+	@Transactional(readOnly = true)
+	public List<Author> getAuthors(Long id) {
 		Book book = this.getBookById(id);
-		
+
+		for (Author author : book.getAuthors()) {
+			if (author.getAuthorPhoto() != null) {
+				author.getAuthorPhoto(); // Inizializza il lazy loading
+			}
+		}
+
 		return book.getAuthors();
 	}
-	
-	public List<Book> getTop5Books(){
+
+	public List<Book> getTop5Books() {
 		return this.bookRepository.findTopBooksByAverageMark(PageRequest.of(0, 5));
 	}
-	
-	public List<Book> getMostReviewed(){
+
+	public List<Book> getMostReviewed() {
 		return this.bookRepository.findMostReviewedBooks(PageRequest.of(0, 5));
 	}
-	
-	public List<Book> getThrillerBooks(){
+
+	public List<Book> getThrillerBooks() {
 		return this.bookRepository.findThrillerBooks(PageRequest.of(0, 5));
 	}
-	
-	public List<Book> getRomanceBooks(){
+
+	public List<Book> getRomanceBooks() {
 		return this.bookRepository.findRomanceBooks(PageRequest.of(0, 5));
 	}
 
+	@Transactional(readOnly = true)
 	public List<Book> findBooksByGenre(Genre genre) {
 		return this.bookRepository.findByGenre(genre);
 	}

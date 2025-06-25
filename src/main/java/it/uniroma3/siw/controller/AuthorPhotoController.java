@@ -25,8 +25,7 @@ public class AuthorPhotoController {
 	        return ResponseEntity.notFound().build();
 	    }
 	    HttpHeaders headers = new HttpHeaders();
-	    headers.setContentType(MediaType.IMAGE_JPEG); // o IMAGE_PNG
+	    headers.setContentType(MediaType.IMAGE_JPEG); // Cambia se usi PNG
 	    return new ResponseEntity<>(photo.getData(), headers, HttpStatus.OK);
 	}
-
 }

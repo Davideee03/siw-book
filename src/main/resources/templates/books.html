@@ -13,10 +13,9 @@
 	<div id="flex-container">
 		<a class="flex-item" th:href="@{/book/{id}(id=${book.id})}" th:each="book : ${books}">
 
-			<div th:if="${!#lists.isEmpty(book.photos)}">
-				<div class="photo-container">
-					<img th:src="@{/bookPhoto/{id}(id=${book.photos[0].id})}" alt="Foto libro" />
-				</div>
+			<div class="photo-container">
+				<img th:if="${!#lists.isEmpty(book.photos)}" th:src="@{/bookPhoto/{id}(id=${book.photos[0].id})}"
+					alt="Foto libro" />
 			</div>
 
 			<h3 th:text="${book.title}"></h3>

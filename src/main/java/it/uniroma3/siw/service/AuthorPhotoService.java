@@ -11,14 +11,14 @@ import it.uniroma3.siw.repository.AuthorPhotoRepository;
 @Service
 public class AuthorPhotoService {
 
-	@Autowired
-	private AuthorPhotoRepository authorPhotoRepository;
+    @Autowired
+    private AuthorPhotoRepository authorPhotoRepository;
 
-	public AuthorPhoto save(AuthorPhoto authorPhoto) {
-		return authorPhotoRepository.save(authorPhoto);
-	}
-	
-	public AuthorPhoto findById(Long id) {
+    public AuthorPhoto save(AuthorPhoto authorPhoto) {
+        return authorPhotoRepository.save(authorPhoto);
+    }
+
+    public AuthorPhoto findById(Long id) {
         return this.authorPhotoRepository.findById(id).orElse(null);
     }
 
@@ -26,4 +26,3 @@ public class AuthorPhotoService {
         return (List<AuthorPhoto>) this.authorPhotoRepository.findAll();
     }
 }
-

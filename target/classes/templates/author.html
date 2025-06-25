@@ -8,18 +8,14 @@
 <body>
 	<div th:replace="fragments/navbar :: navbar"></div>
 
-	<section id="flex-container">
+	<section id="descriptions-container">
 		<div class="description">
-
-			<div class="description">
-				<div class="photo-gallery">
-					<div th:each="photo : ${photos}">
-						<img th:src="@{'/authorPhoto/' + ${photo.id}}" alt="Foto autore" />
-					</div>
-				</div>
+			<div class="single-photo">
+				<img th:if="${photo != null}" th:src="@{'/authorPhoto/' + ${photo.id}}" alt="Foto autore" />
 			</div>
-
 		</div>
+
+
 		<div class="description">
 			<h1 th:text="${author.firstName} + ' ' + ${author.lastName}"></h1>
 			<h3>Birth: </h3>
