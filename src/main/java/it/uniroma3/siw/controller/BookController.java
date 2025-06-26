@@ -54,7 +54,11 @@ public class BookController {
 		if (book != null) {
 			model.addAttribute("book", book);
 			model.addAttribute("authors", this.bookService.getAuthors(id));
-			model.addAttribute("booksSameGenre", this.bookService.findBooksByGenre(book.getGenre()));
+			
+			List<Book> booksSameGenre = this.bookService.findBooksByGenre(book.getGenre());
+			booksSameGenre.remove(book);
+			model.addAttribute("booksSameGenre", booksSameGenre);
+			
 			model.addAttribute("photos", book.getPhotos());
 			return "book.html";
 		}

@@ -71,6 +71,7 @@ public class AuthorController {
 
 		if (author != null) {
 			model.addAttribute("author", author);
+			model.addAttribute("books", this.authorService.getBooks(author));
 			model.addAttribute("photo", author.getAuthorPhoto());
 			return "author.html";
 		}

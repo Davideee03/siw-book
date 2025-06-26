@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import it.uniroma3.siw.model.Author;
 import it.uniroma3.siw.model.Book;
+import it.uniroma3.siw.model.BookPhoto;
 import it.uniroma3.siw.repository.AuthorRepository;
 
 @Service
@@ -17,7 +18,7 @@ public class AuthorService {
 	@Autowired
 	private AuthorRepository authorRepository;
 
-	public List<Author> getAllAuthors(){
+	public List<Author> getAllAuthors() {
 		return (List<Author>) this.authorRepository.findAll();
 	}
 
@@ -45,18 +46,24 @@ public class AuthorService {
 		return this.authorRepository.count();
 	}
 
-	public List<Book> getBooks(Long id) {
-		Author author = this.getAuthorById(id);
-		return (author != null) ? author.getBooks() : List.of();
+	@Transactional
+	public List<Book> getBooks(Author author) {
+		List<Book> books = author.getBooks();
+		for (Book book : books) {
+			for (BookPhoto photo : book.getPhotos()) {
+				photo.getData(); // <-- accede al @Lob
+			}
+		}
+		return books;
 	}
-	
-	public List<Long> getAuthorIds(List<Author> authors){
+
+	public List<Long> getAuthorIds(List<Author> authors) {
 		List<Long> ids = new ArrayList<>();
-		
+
 		for (Author author : authors) {
 			ids.add(author.getId());
 		}
-		
+
 		return ids;
 	}
 }

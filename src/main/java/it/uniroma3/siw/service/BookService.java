@@ -1,5 +1,6 @@
 package it.uniroma3.siw.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -85,6 +86,10 @@ public class BookService {
 
 	@Transactional(readOnly = true)
 	public List<Book> findBooksByGenre(Genre genre) {
+		if(genre==null) {
+			List<Book> books = new ArrayList<>();
+			return books;
+		}
 		return this.bookRepository.findByGenre(genre);
 	}
 	

@@ -3,7 +3,8 @@
 
 <head>
 	<title th:text="${book.title + ' (' + book.year + ')'}">Default Title</title>
-	<link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Playfair+Display&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Playfair+Display&display=swap"
+		rel="stylesheet">
 	<link rel="stylesheet" href="/css/style.css">
 </head>
 
@@ -36,7 +37,9 @@
 			<div id="author-flex-container" th:if="${authors != null}">
 				<a class="flex-item" th:each="author : ${authors}" th:href="@{/author/{id}(id=${author.id})}">
 					<div class="photo-container">
-						<img th:if="${author.authorPhoto != null}" th:src="@{'/authorPhoto/' + ${author.authorPhoto.id}}" alt="Foto di [[${author.firstName}]]">
+						<img th:if="${author.authorPhoto != null}"
+							th:src="@{'/authorPhoto/' + ${author.authorPhoto.id}}"
+							alt="Foto di [[${author.firstName}]]">
 					</div>
 					<h3 th:text="${author.firstName + ' ' + author.lastName}">Author Name</h3>
 				</a>
@@ -59,10 +62,16 @@
 
 	<div th:unless="${#lists.isEmpty(book.reviews)}" class="long-divider"></div>
 
-	<h2 class="center-title">Something similar?</h2>
+	<h2 th:if="${!#lists.isEmpty(booksSameGenre)}" class="center-title">Something similar?</h2>
 	<section>
 		<div id="flex-container">
 			<a class="flex-item" th:href="@{/book/{id}(id=${book.id})}" th:each="book : ${booksSameGenre}">
+
+				<div class="photo-container">
+					<img th:if="${!#lists.isEmpty(book.photos)}" th:src="@{/bookPhoto/{id}(id=${book.photos[0].id})}"
+						alt="Foto libro" />
+				</div>
+
 				<h3 th:text="${book.title}"></h3>
 				<div th:unless="${#lists.isEmpty(authors)}" th:each="author : ${authors}">
 					<p th:text="${'of ' + author.firstName + ' ' + author.lastName}"></p>
