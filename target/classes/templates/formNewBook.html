@@ -3,16 +3,17 @@
 
 <head>
 	<title>Add new book</title>
-	<link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Playfair+Display&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Playfair+Display&display=swap"
+		rel="stylesheet">
 	<link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body>
 	<div th:replace="fragments/navbar :: navbar"></div>
-	
+
 	<div class="form-container">
 		<form th:action="@{/book}" method="POST" th:object="${book}" enctype="multipart/form-data" class="book-form">
-			
+
 			<div class="form-group">
 				<label for="title">Title:</label>
 				<input required type="text" th:field="${book.title}" id="title" class="input-field" />
@@ -42,8 +43,8 @@
 					<span th:text="${author.firstName} + ' ' + ${author.lastName}"></span>
 				</div>
 			</div>
-			
-			
+
+
 
 			<div class="form-group">
 				<label>Seleziona immagini:</label>
@@ -59,7 +60,7 @@
 			</div>
 		</form>
 	</div>
-	
+
 	<div th:replace="fragments/footer :: footer"></div>
 </body>
 

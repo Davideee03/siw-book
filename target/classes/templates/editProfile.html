@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="it">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Edit Profile</title>
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Playfair+Display&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+	<div th:replace="fragments/navbar :: navbar"></div>
+
+	<div class="form-container">
+		<form th:action="@{/profile/editProfile}" method="post" th:object="${user}" enctype="multipart/form-data" class="book-form">
+			<h1 class="center-title">Edit Profile</h1>
+
+			<div class="form-group">
+				<label for="name">Name</label>
+				<input type="text" id="name" th:field="*{name}" class="input-field" required />
+			</div>
+
+			<div class="form-group">
+				<label for="surname">Surname</label>
+				<input type="text" id="surname" th:field="*{surname}" class="input-field" required />
+			</div>
+
+			<div class="form-group">
+				<label for="email">Email</label>
+				<input type="email" id="email" th:field="*{email}" class="input-field" required />
+			</div>
+
+			<div class="form-group">
+				<label for="file">Profile Picture</label>
+				<input type="file" id="file" name="file" accept="image/*" class="input-field" />
+			</div>
+
+			<input type="hidden" th:field="*{id}" />
+			<input type="hidden" th:object="${credentials}" />
+
+			<div class="form-group">
+				<button type="submit" class="submit-button">Save</button>
+			</div>
+		</form>
+	</div>
+
+	<div th:replace="fragments/footer :: footer"></div>
+</body>
+
+</html>

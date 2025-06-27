@@ -22,7 +22,9 @@ public class Review {
 	@JoinColumn(name="book_id")
 	private Book book;
 	
-	
+	@ManyToOne
+	@JoinColumn(name="user_id")
+	private User user;
 	
 	public String getTitle() {
 		return title;
@@ -45,5 +47,9 @@ public class Review {
 	
 	public Long getId() {
 		return this.id;
+	}
+	
+	public void setBook(Book book) {
+		this.book = book;
 	}
 }

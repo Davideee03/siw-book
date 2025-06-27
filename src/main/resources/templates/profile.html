@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Profilo Utente</title>
+	<link rel="stylesheet" href="/css/style.css?v=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+	<div th:replace="fragments/navbar :: navbar"></div>
+
+	<div id="profile-container">
+		<div th:if="${user}" class="profile-content">
+			<div class="profile-left">
+
+				<div class="profile-photo">
+					<img class="photo"
+						th:src="${user.userPhoto != null} ? @{|/userPhoto/${user.userPhoto.id}|} : @{/images/defaultProfile.jpg}" />
+				</div>
+
+				<h2 class="profile-name" th:text="${credentials.username}"></h2>
+
+				<div class="long-divider"></div>
+
+				<div class="profile-actions">
+					<a href="/profile/editProfile" class="profile-action">Edit Profile</a>
+					<a href="/profile/modifyPassword" class="profile-action">Edit Password</a>
+				</div>
+
+			</div>
+			<div class="profile-right">
+				<h3 class="profile-section-title">Your Personal Details</h3>
+				<p><strong>Name:</strong> <span th:text="${user.name}"></span></p>
+				<p><strong>Surname:</strong> <span th:text="${user.surname}"></span></p>
+				<p><strong>Email:</strong> <span th:text="${user.email}"></span></p>
+			</div>
+		</div>
+	</div>
+
+	<div th:unless="${user}" class="alert-warning text-center">
+		User not Found.
+	</div>
+	</div>
+</body>
+
+</html>

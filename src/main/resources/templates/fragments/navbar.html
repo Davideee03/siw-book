@@ -6,7 +6,12 @@
 		<div class="nav-menu">
 			<a href="/show/books">Books</a>
 			<a href="/show/authors">Authors</a>
-			<a href="/">Login</a>
+			<a sec:authorize="isAuthenticated()" href="/profile"
+				th:text="${#authentication.name}">Username</a>
+			<a sec:authorize="isAuthenticated()" href="/logout">Logout</a>
+
+			<a sec:authorize="isAnonymous()" href="/login">Login</a>
+			<a sec:authorize="isAnonymous()" href="/register">Sign Up</a>
 		</div>
 	</div>
 </nav>

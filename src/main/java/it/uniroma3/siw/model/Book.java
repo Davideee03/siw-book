@@ -13,11 +13,11 @@ public class Book {
 	private Long id;
 	private String title;
 	private int year;
-	
+
 	private String plot;
-	
+
 	@Enumerated(EnumType.STRING)
-    private Genre genre;
+	private Genre genre;
 
 	@ManyToMany
 	@JoinTable(name = "book_authors", joinColumns = @JoinColumn(name = "book_id"), inverseJoinColumns = @JoinColumn(name = "author_id"))
@@ -25,10 +25,10 @@ public class Book {
 
 	@OneToMany(mappedBy = "book")
 	private List<Review> reviews = new ArrayList<>();
-	
+
 	@OneToMany(mappedBy = "book")
 	private List<BookPhoto> photos = new ArrayList<>();
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -72,20 +72,24 @@ public class Book {
 	public List<Review> getReviews() {
 		return this.reviews;
 	}
-	
+
 	public Genre getGenre() {
-	    return genre;
+		return genre;
 	}
 
 	public void setGenre(Genre genre) {
-	    this.genre = genre;
+		this.genre = genre;
 	}
-	
-	public List<BookPhoto> getPhotos(){
+
+	public List<BookPhoto> getPhotos() {
 		return this.photos;
 	}
-	
+
 	public void addPhoto(BookPhoto bookPhoto) {
 		this.photos.add(bookPhoto);
+	}
+
+	public void addReview(Review review) {
+		this.reviews.add(review);
 	}
 }
