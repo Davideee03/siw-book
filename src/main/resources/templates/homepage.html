@@ -4,17 +4,33 @@
 <head>
 	<title>Read&Rate</title>
 	<link rel="stylesheet" href="/css/style.css?v=1">
-	<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Open+Sans&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Open+Sans&display=swap"
+		rel="stylesheet">
 
 </head>
 
 <body>
 	<div th:replace="fragments/navbar :: navbar"></div>
 
+	<h1 class="center-title">Our Suggestion!</h1>
+	<section id="suggested-book-container">
+		<div class="suggested-photo-container">
+			<img th:if="${!#lists.isEmpty(suggestedBook.photos)}" th:src="@{/bookPhoto/{id}(id=${suggestedBook.photos[0].id})}"
+				alt="Foto libro" />
+		</div>
+		
+		<h2 class="book-title" th:text="${suggestedBook.title}"></h2>
+	</section>
+
+	<div class="long-divider"></div>
 
 	<h1 class="center-title">Top rated books</h1>
 	<section id="flex-container">
 		<a class="flex-item" th:href="@{/book/{id}(id=${book.id})}" th:each="book : ${topBooks}">
+			<div class="photo-container">
+				<img th:if="${!#lists.isEmpty(book.photos)}" th:src="@{/bookPhoto/{id}(id=${book.photos[0].id})}"
+					alt="Foto libro" />
+			</div>
 			<h3 class="flex-title" th:text="${book.title}"></h3>
 			<div th:unless="${#lists.isEmpty(book.authors)}" th:each="author : ${book.authors}">
 				<p class="flex-description" th:text="${'of ' + author.firstName + ' ' + author.lastName}"></p>
@@ -22,9 +38,16 @@
 		</a>
 	</section>
 
-	<h1 class="center-title">Thrillers</h1>
+	<div class="long-divider"></div>
+
+	<h1 class="center-title">The Anonymous Ranking</h1>
+	<p>Books with few reviews!</p>
 	<section id="flex-container">
-		<a class="flex-item" th:href="@{/book/{id}(id=${book.id})}" th:each="book : ${thrillerBooks}">
+		<a class="flex-item" th:href="@{/book/{id}(id=${book.id})}" th:each="book : ${unknownBooks}">
+			<div class="photo-container">
+				<img th:if="${!#lists.isEmpty(book.photos)}" th:src="@{/bookPhoto/{id}(id=${book.photos[0].id})}"
+					alt="Foto libro" />
+			</div>
 			<h3 th:text="${book.title}"></h3>
 			<div th:unless="${#lists.isEmpty(book.authors)}" th:each="author : ${book.authors}">
 				<p th:text="${'of ' + author.firstName + ' ' + author.lastName}"></p>
@@ -32,9 +55,14 @@
 		</a>
 	</section>
 
-	<h1 class="center-title">Romance</h1>
+	<!--
+	<h1 class="center-title">Thrillers</h1>
 	<section id="flex-container">
-		<a class="flex-item" th:href="@{/book/{id}(id=${book.id})}" th:each="book : ${romanceBooks}">
+		<a class="flex-item" th:href="@{/book/{id}(id=${book.id})}" th:each="book : ${thrillerBooks}">
+			<div class="photo-container">
+				<img th:if="${!#lists.isEmpty(book.photos)}" th:src="@{/bookPhoto/{id}(id=${book.photos[0].id})}"
+					alt="Foto libro" />
+			</div>
 			<h3 th:text="${book.title}"></h3>
 			<div th:unless="${#lists.isEmpty(book.authors)}" th:each="author : ${book.authors}">
 				<p th:text="${'of ' + author.firstName + ' ' + author.lastName}"></p>
@@ -42,6 +70,22 @@
 		</a>
 	</section>
 	
+	<div class="long-divider"></div>
+
+	<h1 class="center-title">Romance</h1>
+	<section id="flex-container">
+		<a class="flex-item" th:href="@{/book/{id}(id=${book.id})}" th:each="book : ${romanceBooks}">
+			<div class="photo-container">
+				<img th:if="${!#lists.isEmpty(book.photos)}" th:src="@{/bookPhoto/{id}(id=${book.photos[0].id})}"
+					alt="Foto libro" />
+			</div>
+			<h3 th:text="${book.title}"></h3>
+			<div th:unless="${#lists.isEmpty(book.authors)}" th:each="author : ${book.authors}">
+				<p th:text="${'of ' + author.firstName + ' ' + author.lastName}"></p>
+			</div>
+		</a>
+	</section>
+-->
 	<div th:replace="fragments/footer :: footer"></div>
 
 </body>

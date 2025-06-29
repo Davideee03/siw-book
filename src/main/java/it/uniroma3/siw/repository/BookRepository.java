@@ -27,4 +27,7 @@ public interface BookRepository extends CrudRepository<Book, Long>{
 	@Query("SELECT b FROM Book b WHERE b.genre = :genre")
 	List<Book> findByGenre(@Param("genre") Genre genre);
 
+	@Query("SELECT b FROM Book b LEFT JOIN b.reviews r GROUP BY b HAVING COUNT(r) < 5")
+	List<Book> getUnknownBooks();
+
 }

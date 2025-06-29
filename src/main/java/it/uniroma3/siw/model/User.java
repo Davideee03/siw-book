@@ -15,7 +15,7 @@ public class User {
 	private String email;
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Review> rentals;
+	private List<Review> reviews;
 	
 	@OneToOne(mappedBy = "user", cascade=CascadeType.ALL, orphanRemoval = true)
 	private UserPhoto userPhoto;
@@ -52,12 +52,12 @@ public class User {
 		this.email = email;
 	}
 
-	public List<Review> getRentals() {
-		return rentals;
+	public List<Review> getReviews() {
+		return reviews;
 	}
 
-	public void setRentals(List<Review> rentals) {
-		this.rentals = rentals;
+	public void setReviews(List<Review> rentals) {
+		this.reviews = rentals;
 	}
 
 	public UserPhoto getUserPhoto() {

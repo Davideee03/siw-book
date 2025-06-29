@@ -20,9 +20,12 @@ import it.uniroma3.siw.model.Author;
 import it.uniroma3.siw.model.Book;
 import it.uniroma3.siw.model.BookPhoto;
 import it.uniroma3.siw.model.Genre;
+import it.uniroma3.siw.model.Review;
 import it.uniroma3.siw.service.AuthorService;
 import it.uniroma3.siw.service.BookPhotoService;
 import it.uniroma3.siw.service.BookService;
+import it.uniroma3.siw.service.ReviewService;
+import it.uniroma3.siw.service.UserService;
 
 @Controller
 public class BookController {
@@ -35,6 +38,12 @@ public class BookController {
 
 	@Autowired
 	private BookPhotoService bookPhotoService;
+	
+	@Autowired
+	private UserService userService;
+	
+	@Autowired
+	private ReviewService reviewService; 
 
 	@GetMapping("/show/books")
 	public String showBook(Model model) {
@@ -60,6 +69,7 @@ public class BookController {
 			model.addAttribute("booksSameGenre", booksSameGenre);
 			
 			model.addAttribute("photos", book.getPhotos());
+			
 			return "book.html";
 		}
 
@@ -105,14 +115,13 @@ public class BookController {
 		return "redirect:/book/" + book.getId();
 	}
 
-	@GetMapping("/administrator/formUpdateBook/{id}")
+	@GetMapping("/administrator/formEditBook/{id}")
 	public String modifyBook(@PathVariable("id") Long id, Model model) {
 		Book book = bookService.getBookById(id);
 
 		if (book != null) {
 
 			model.addAttribute("book", book);
-			model.addAttribute("id", id);
 			model.addAttribute("authors", this.authorService.getAllAuthors());
 			return "formUpdateBook.html";
 		}
@@ -121,7 +130,7 @@ public class BookController {
 		return "error.html";
 	}
 
-	@PostMapping("/update/book/{id}")
+	@PostMapping("/edit/book/{id}")
 	public String updateBook(@PathVariable("id") Long id, @ModelAttribute Book updatedBook,
 			@RequestParam("selectedIds") List<Long> ids) {
 		Book book = this.bookService.getBookById(id);
@@ -151,10 +160,19 @@ public class BookController {
 			for(BookPhoto bookPhoto : book.getPhotos()) {
 				this.bookPhotoService.deletePhoto(bookPhoto);
 			}
+			
+			for(Review review : book.getReviews()) {
+				this.reviewService.deleteReview(review);
+			}
 		}
 		
 		this.bookService.deleteAllById(ids);
 
 		return "redirect:/show/books";
+	}
+	
+	@GetMapping("/edit/book/{id}")
+	public String editBook(@PathVariable("id") Long id, Model model) {
+		return "formEditBook.html";
 	}
 }

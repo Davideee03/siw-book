@@ -13,6 +13,7 @@ import it.uniroma3.siw.repository.BookRepository;
 import it.uniroma3.siw.model.Author;
 import it.uniroma3.siw.model.Book;
 import it.uniroma3.siw.model.Genre;
+import it.uniroma3.siw.model.User;
 
 @Service
 public class BookService {
@@ -37,9 +38,14 @@ public class BookService {
 	@Transactional(readOnly = true)
 	public Book getBookById(Long id) {
 		Book book = bookRepository.findById(id).orElse(null);
-		// accedi a book.getPhotos() qui, dentro la transazione
 		if (book != null)
-			book.getPhotos().size(); // forza inizializzazione
+			book.getPhotos().size();
+		
+		book.getReviews().forEach(r -> {
+            User user = r.getUser();
+            user.getUserPhoto().getData();
+        });
+		
 		return book;
 	}
 
@@ -68,8 +74,8 @@ public class BookService {
 		return book.getAuthors();
 	}
 
-	public List<Book> getTop5Books() {
-		return this.bookRepository.findTopBooksByAverageMark(PageRequest.of(0, 5));
+	public List<Book> getTop15Books() {
+		return this.bookRepository.findTopBooksByAverageMark(PageRequest.of(0, 15));
 	}
 
 	public List<Book> getMostReviewed() {
@@ -95,5 +101,9 @@ public class BookService {
 	
 	public List<Book> getBooksByIds(List<Long> ids){
 		return (List<Book>) this.bookRepository.findAllById(ids);
+	}
+
+	public List<Book> getUnknownBooks() {
+		return this.bookRepository.getUnknownBooks();
 	}
 }

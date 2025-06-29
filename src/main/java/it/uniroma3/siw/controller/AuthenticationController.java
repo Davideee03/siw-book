@@ -83,16 +83,17 @@ public class AuthenticationController {
         return "homepage.html";
 	}*/
 		
-    @GetMapping(value = "/success")
-    public String defaultAfterLogin(Model model) {
-        
-    	UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    	Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
-    	if (credentials.getRole().equals(Credentials.ADMIN_ROLE)) {
-            return "homepageAdministrator.html";
-        }
-        return "homepage.html";
-    }
+	@GetMapping("/success")
+	public String defaultAfterLogin(Model model) {
+	    UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+	    Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
+
+	    if (credentials.getRole().equals(Credentials.ADMIN_ROLE)) {
+	        return "homepageAdministrator.html";
+	    }
+
+	    return "redirect:/";
+	}
 
 	@PostMapping(value = { "/register" })
     public String registerUser(@Valid @ModelAttribute("user") User user,

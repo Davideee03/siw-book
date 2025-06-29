@@ -52,4 +52,16 @@ public class Review {
 	public void setBook(Book book) {
 		this.book = book;
 	}
+	
+	public void setUser(User user) {
+		this.user = user;
+	}
+	
+	public User getUser() {
+		return this.user;
+	}
+	
+	public Book getBook() {
+		return this.book;
+	}
 }

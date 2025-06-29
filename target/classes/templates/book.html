@@ -11,7 +11,13 @@
 <body>
 	<div th:replace="fragments/navbar :: navbar"></div>
 
-	<h1 class="center-title" th:text="${book.title}"></h1>
+	<div th:if="${errorMessage}" class="error-message" th:text="${errorMessage}"></div>
+
+	<h1 class="book-title" th:text="${book.title}"></h1>
+	
+	<div sec:authorize="isAuthenticated() and hasRole('ADMIN')">
+		<div th:replace="fragments/bookAdminActions :: bookAdminActions"></div>
+	</div>
 
 	<section id="descriptions-container">
 
@@ -46,6 +52,16 @@
 			</div>
 		</div>
 	</section>
+	
+	<div class="long-divider"></div>
+
+	<section class="form-container">
+		<h2 class="book-title">Want to share your thoughts?</h2>
+		<form th:action="@{/user/formNewReview/book/{id}(id=${book.id})}" method="get" class="book-form">
+			<button type="submit" class="review-button">Leave a Review</button>
+		</form>
+	</section>
+
 
 
 	<div th:unless="${#lists.isEmpty(book.reviews)}" class="long-divider"></div>
@@ -54,13 +70,21 @@
 		<section id="reviews">
 			<h1>Reviews</h1>
 			<div class="review" th:each="review : ${book.reviews}">
-				<h3 th:text="${review.title + ' ' + review.mark + '/5'}">Review Title</h3>
-				<p th:text="${review.description}">Review description</p>
+				<div class="review-profile-photo">
+					<img class="photo"
+						th:src="${review.user.userPhoto != null} ? @{|/userPhoto/${review.user.userPhoto.id}|} : @{/images/defaultProfile.jpg}"
+						alt="Foto profilo" />
+				</div>
+				<div class="review-content">
+					<h2 th:text="${review.user.name}">Nome Utente</h2>
+					<h3 th:text="${review.title + ' - ' + review.mark + '/5'}">Titolo e Voto</h3>
+					<p th:text="${review.description}">Contenuto della recensione</p>
+				</div>
 			</div>
 		</section>
 	</div>
 
-	<div th:unless="${#lists.isEmpty(book.reviews)}" class="long-divider"></div>
+	<div th:if="${!#lists.isEmpty(booksSameGenre)}" class="long-divider"></div>
 
 	<h2 th:if="${!#lists.isEmpty(booksSameGenre)}" class="center-title">Something similar?</h2>
 	<section>
@@ -79,11 +103,9 @@
 			</a>
 		</div>
 	</section>
-	
-	<form th:action="@{/user/formNewReview/book/{id}(id=${book.id})}" method="get">
-		<button type="submit">Leave a review</button>
-	</form>
-	
+
+
+
 	<div th:replace="fragments/footer :: footer"></div>
 </body>
 

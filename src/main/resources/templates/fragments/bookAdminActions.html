@@ -1,0 +1,16 @@
+<div th:fragment="bookAdminActions">
+	<div class="admin-links">
+		<form th:action="@{/edit/book/{id}(id=${book.id})}" method="get">
+			<button type="submit" class="edit-button">
+				<h1>Edit</h1>
+			</button>
+		</form>
+
+		<form th:action="@{/books-deleted}" method="post">
+			<input type="hidden" name="selectedIds" th:value="${book.id}" />
+			<button type="submit" class="delete-button">
+				<h1>Delete</h1>
+			</button>
+		</form>
+	</div>
+</div>
