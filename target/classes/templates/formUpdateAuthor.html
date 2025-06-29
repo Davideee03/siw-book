@@ -1,20 +1,56 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Update Author</title>
-	<link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Playfair+Display&display=swap" rel="stylesheet">
-</head>
-<body>
-    <form th:action="@{/author-updated/{id}(id=${id})}" method="post" th:object="${author}">
-        <div>
-            Name: <input type="text" th:field="${author.firstName}" />
-        </div>
 
-        <div>
-            Surname: <input type="text" th:field="${author.lastName}" />
-        </div>
-        
-        <button type="submit">Submit</button>
-    </form>
+<head>
+	<title>Edit Author</title>
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Playfair+Display&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+	<div th:replace="fragments/navbar :: navbar"></div>
+
+	<div class="form-container">
+		<form th:action="@{/author-edited/{id}(id=${author.id})}" method="POST" th:object="${author}" enctype="multipart/form-data" class="book-form">
+			
+			<div class="form-group">
+				<label for="firstName">Name:</label>
+				<input type="text" th:field="*{firstName}" id="firstName" class="input-field" required />
+			</div>
+
+			<div class="form-group">
+				<label for="lastName">Surname:</label>
+				<input type="text" th:field="*{lastName}" id="lastName" class="input-field" required />
+			</div>
+
+			<div class="form-group">
+				<label for="nationality">Nationality:</label>
+				<input type="text" th:field="*{nationality}" id="nationality" class="input-field" required />
+			</div>
+
+			<div class="form-group">
+				<label for="birthDate">Birth Date:</label>
+				<input type="date" th:field="*{birthDate}" id="birthDate" class="input-field" required />
+			</div>
+
+			<div class="form-group">
+				<label for="deathDate">Death Date:</label>
+				<input type="date" th:field="*{deathDate}" id="deathDate" class="input-field" />
+			</div>
+
+			<div class="form-group">
+				<label for="uploadedImage">Update image (optional):</label>
+				<input type="file" name="uploadedImage" accept="image/*" class="input-field" />
+			</div>
+
+			<div class="form-group">
+				<button type="submit" class="submit-button">Update Author</button>
+			</div>
+
+		</form>
+	</div>
+
+	<div th:replace="fragments/footer :: footer"></div>
 </body>
+
 </html>

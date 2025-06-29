@@ -29,7 +29,7 @@ public class BookService {
 			if (!book.getPhotos().isEmpty()) {
 				book.getPhotos().get(0).getId();
 			}
-			
+
 			this.getAuthors(book.getId());
 		});
 		return books;
@@ -40,12 +40,14 @@ public class BookService {
 		Book book = bookRepository.findById(id).orElse(null);
 		if (book != null)
 			book.getPhotos().size();
-		
+
 		book.getReviews().forEach(r -> {
-            User user = r.getUser();
-            user.getUserPhoto().getData();
-        });
-		
+			User user = r.getUser();
+			if (user.getUserPhoto() != null) {
+				user.getUserPhoto().getData();
+			}
+		});
+
 		return book;
 	}
 
@@ -92,14 +94,14 @@ public class BookService {
 
 	@Transactional(readOnly = true)
 	public List<Book> findBooksByGenre(Genre genre) {
-		if(genre==null) {
+		if (genre == null) {
 			List<Book> books = new ArrayList<>();
 			return books;
 		}
 		return this.bookRepository.findByGenre(genre);
 	}
-	
-	public List<Book> getBooksByIds(List<Long> ids){
+
+	public List<Book> getBooksByIds(List<Long> ids) {
 		return (List<Book>) this.bookRepository.findAllById(ids);
 	}
 

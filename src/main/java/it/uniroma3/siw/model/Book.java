@@ -14,6 +14,7 @@ public class Book {
 	private String title;
 	private int year;
 
+	@Column(columnDefinition = "TEXT")
 	private String plot;
 
 	@Enumerated(EnumType.STRING)

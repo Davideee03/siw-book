@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -16,7 +18,9 @@ public class Author {
     private String firstName;
     private String lastName;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate deathDate;
 
     private String nationality;

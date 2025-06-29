@@ -13,7 +13,7 @@
 	<div th:replace="fragments/navbar :: navbar"></div>
 
 	<h1 class="center-title">Our Suggestion!</h1>
-	<section id="suggested-book-container">
+	<section th:if="${suggestedBook}" id="suggested-book-container">
 		<div class="suggested-photo-container">
 			<img th:if="${!#lists.isEmpty(suggestedBook.photos)}" th:src="@{/bookPhoto/{id}(id=${suggestedBook.photos[0].id})}"
 				alt="Foto libro" />

@@ -9,6 +9,9 @@
 
 <body>
 	<div th:replace="fragments/navbar :: navbar"></div>
+	
+	<div sec:authorize="isAuthenticated() and hasRole('ADMIN')"
+			th:replace="fragments/authorAdminActions :: authorAdminActions"></div>
 
 	<section id="descriptions-container">
 		<div class="description">

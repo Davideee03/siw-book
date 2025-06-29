@@ -13,11 +13,10 @@
 
 	<div th:if="${errorMessage}" class="error-message" th:text="${errorMessage}"></div>
 
+	<div sec:authorize="isAuthenticated() and hasRole('ADMIN')"
+		th:replace="fragments/bookAdminActions :: bookAdminActions"></div>
+
 	<h1 class="book-title" th:text="${book.title}"></h1>
-	
-	<div sec:authorize="isAuthenticated() and hasRole('ADMIN')">
-		<div th:replace="fragments/bookAdminActions :: bookAdminActions"></div>
-	</div>
 
 	<section id="descriptions-container">
 
@@ -52,7 +51,7 @@
 			</div>
 		</div>
 	</section>
-	
+
 	<div class="long-divider"></div>
 
 	<section class="form-container">
@@ -71,9 +70,11 @@
 			<h1>Reviews</h1>
 			<div class="review" th:each="review : ${book.reviews}">
 				<div class="review-profile-photo">
-					<img class="photo"
-						th:src="${review.user.userPhoto != null} ? @{|/userPhoto/${review.user.userPhoto.id}|} : @{/images/defaultProfile.jpg}"
-						alt="Foto profilo" />
+					<img class="photo" th:if="${review.user.userPhoto != null}"
+						th:src="@{/userPhoto/{id}(id=${review.user.userPhoto.id})}" alt="Foto profilo" />
+
+					<img class="photo" th:unless="${review.user.userPhoto != null}"
+						th:src="@{/images/defaultProfile.jpg}" alt="Foto profilo" />
 				</div>
 				<div class="review-content">
 					<h2 th:text="${review.user.name}">Nome Utente</h2>

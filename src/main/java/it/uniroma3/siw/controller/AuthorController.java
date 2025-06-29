@@ -29,7 +29,7 @@ public class AuthorController {
 	@Autowired
 	private AuthorPhotoService authorPhotoService;
 
-	@GetMapping("/administrator/formNewAuthor")
+	@GetMapping("/formNewAuthor")
 	public String formNewAuthor(Model model) {
 		model.addAttribute("author", new Author());
 		return "formNewAuthor.html";
@@ -43,26 +43,24 @@ public class AuthorController {
 
 	@Transactional
 	@PostMapping("/author")
-	public String newAuthor(@ModelAttribute("author") Author author,
-	                        @RequestParam("uploadedImage") MultipartFile photo,
-	                        Model model) {
-	    authorService.save(author);
+	public String newAuthor(@ModelAttribute("author") Author author, @RequestParam("uploadedImage") MultipartFile photo,
+			Model model) {
+		authorService.save(author);
 
-	    if (!photo.isEmpty()) {
-	        try {
-	            AuthorPhoto authorPhoto = new AuthorPhoto();
-	            authorPhoto.setData(photo.getBytes());
-	            authorPhoto.setAuthor(author);
-	            authorPhotoService.save(authorPhoto);
-	        } catch (IOException e) {
-	            model.addAttribute("errorMessage", "Error loading photo");
-	            return "error.html";
-	        }
-	    }
+		if (!photo.isEmpty()) {
+			try {
+				AuthorPhoto authorPhoto = new AuthorPhoto();
+				authorPhoto.setData(photo.getBytes());
+				authorPhoto.setAuthor(author);
+				authorPhotoService.save(authorPhoto);
+			} catch (IOException e) {
+				model.addAttribute("errorMessage", "Error loading photo");
+				return "error.html";
+			}
+		}
 
-	    return "redirect:/author/" + author.getId();
+		return "redirect:/author/" + author.getId();
 	}
-
 
 	@Transactional
 	@GetMapping("/author/{id}")
@@ -99,7 +97,7 @@ public class AuthorController {
 		return "redirect:/show/authors";
 	}
 
-	@GetMapping("/administrator/update/author/{id}")
+	@GetMapping("/edit/author/{id}")
 	public String updateAuthor(@PathVariable("id") Long id, Model model) {
 		Author author = this.authorService.getAuthorById(id);
 
@@ -113,9 +111,9 @@ public class AuthorController {
 		return "error.html";
 	}
 
-	@PostMapping("/author-updated/{id}")
+	@PostMapping("/author-edited/{id}")
 	public String authorUpdated(@PathVariable("id") Long id, @ModelAttribute Author authorUpdated,
-			@RequestParam("photo") MultipartFile[] photos, Model model) {
+			@RequestParam("uploadedImage") MultipartFile photo, Model model) {
 
 		Author author = this.authorService.getAuthorById(id);
 
@@ -127,19 +125,24 @@ public class AuthorController {
 			author.setNationality(authorUpdated.getNationality());
 			this.authorService.save(author);
 
-			for (MultipartFile photo : photos) {
-				if (!photo.isEmpty()) {
-					try {
-						AuthorPhoto authorPhoto = new AuthorPhoto();
-						authorPhoto.setData(photo.getBytes());
-						authorPhoto.setAuthor(author);
-						this.authorPhotoService.save(authorPhoto);
-					} catch (IOException e) {
-						e.printStackTrace();
-						model.addAttribute("errorMessage", "Errore nel caricamento della foto");
-						return "formUpdateAuthor.html";
-					}
-				}
+			if (photo != null && !photo.isEmpty()) {
+			    try {
+			        AuthorPhoto existingPhoto = authorPhotoService.findByAuthor(author);
+
+			        if (existingPhoto != null) {
+			            existingPhoto.setData(photo.getBytes());
+			            authorPhotoService.save(existingPhoto); // UPDATE
+			        } else {
+			            AuthorPhoto newPhoto = new AuthorPhoto();
+			            newPhoto.setData(photo.getBytes());
+			            newPhoto.setAuthor(author);
+			            authorPhotoService.save(newPhoto); // INSERT
+			        }
+			    } catch (IOException e) {
+			        e.printStackTrace();
+			        model.addAttribute("errorMessage", "Errore nel caricamento della foto");
+			        return "formUpdateAuthor.html";
+			    }
 			}
 		}
 

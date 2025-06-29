@@ -49,7 +49,10 @@ public class HomepageController {
 		
 		//Get the random top rated book
 		Random random = new Random();
-		Book randomBook = topBooks.get(random.nextInt(topBooks.size()));
+		Book randomBook = null;
+		if (!topBooks.isEmpty()) {
+		    randomBook = topBooks.get(random.nextInt(topBooks.size()));
+		}
 		
 		model.addAttribute("unknownBooks", this.bookService.getUnknownBooks());
 		model.addAttribute("suggestedBook", randomBook);
