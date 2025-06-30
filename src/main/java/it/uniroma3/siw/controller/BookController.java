@@ -1,6 +1,7 @@
 package it.uniroma3.siw.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -98,10 +99,20 @@ public class BookController {
 	@Transactional
 	@PostMapping("/book")
 	public String saveBook(@ModelAttribute("book") Book book, @RequestParam("photo") MultipartFile[] photos,
-			@RequestParam("selectedIds") List<Long> ids, Model model) {
+			@RequestParam(name = "add-authors", required = false) String[] authors2add, Model model) {
 
-		// Associa gli autori selezionati
-		book.setAuthors(this.authorService.getAllAuthorsById(ids));
+		if (authors2add != null) {
+			List<String> names = new ArrayList<>();
+			for (String name : authors2add) {
+				if (name != null && !name.isBlank() && !names.contains(name)) {
+					Author a = authorService.getAuthorByName(name);
+					if (a != null) {
+						names.add(name);
+						book.getAuthors().add(a);
+					}
+				}
+			}
+		}
 
 		// Salva il libro per avere l'ID (serve prima di associare la foto)
 		this.bookService.save(book);
@@ -193,11 +204,14 @@ public class BookController {
 			book.setPlot(updatedBook.getPlot());
 
 			if (authors2add != null) {
+				List<String> names = new ArrayList<>();
 				for (String name : authors2add) {
-					if (name != null && !name.isBlank()) {
+					if (name != null && !name.isBlank() && !names.contains(name)) {
 						Author a = authorService.getAuthorByName(name);
-						if (a != null)
+						if (a != null) {
+							names.add(name);
 							book.getAuthors().add(a);
+						}
 					}
 				}
 			}
