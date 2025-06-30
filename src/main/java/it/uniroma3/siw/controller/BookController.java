@@ -47,12 +47,10 @@ public class BookController {
 
 	@GetMapping("/show/books")
 	public String showBook(Model model) {
-		if (this.bookService.count() > 0) {
-			model.addAttribute("books", this.bookService.getAllBooks());
-			return "books.html";
-		}
-
-		return "emptyLibrary.html";
+		model.addAttribute("books", this.bookService.getAllBooks());
+		model.addAttribute("authors", this.authorService.getAllAuthors());
+		model.addAttribute("genres", Genre.values());
+		return "books.html";
 	}
 
 	@Transactional
@@ -67,13 +65,13 @@ public class BookController {
 
 			List<Book> booksSameGenre = this.bookService.findBooksByGenre(book.getGenre());
 			booksSameGenre.remove(book);
-			
+
 			for (Book bookSameGenre : booksSameGenre) {
 				List<BookPhoto> photos = bookSameGenre.getPhotos();
 				if (photos != null) {
 					for (BookPhoto photo : photos) {
 						if (photo != null && photo.getData() != null) {
-							photo.getData(); 
+							photo.getData();
 						}
 					}
 				}
@@ -170,11 +168,11 @@ public class BookController {
 	@GetMapping("/edit/book/{id}")
 	public String editBook(@PathVariable("id") Long id, Model model) {
 		Book book = bookService.getBookById(id);
-		
+
 		model.addAttribute("book", book);
 		model.addAttribute("authors", this.authorService.getAllAuthors());
 		model.addAttribute("genres", Genre.values());
-		
+
 		return "formEditBook.html";
 	}
 
@@ -185,11 +183,27 @@ public class BookController {
 		if (book != null) {
 			book.setTitle(updatedBook.getTitle());
 			book.setYear(updatedBook.getYear());
+			book.setPlot(updatedBook.getPlot());
 
 			// book.setAuthors(this.authorService.getAllAuthorsById(ids));
 			this.bookService.save(book);
 		}
 
 		return "redirect:/book/" + id;
+	}
+
+	@GetMapping("/filterBooks")
+	public String filterBooks(
+	    @RequestParam(required = false, defaultValue = "") String title,
+	    @RequestParam(required = false, defaultValue = "0") int year,
+	    @RequestParam(required = false, defaultValue = "") String author,
+	    @RequestParam(required = false) Genre genre, // enum direttamente!
+	    Model model
+	) {
+	    List<Book> books = this.bookService.filterBooks(title, year, author, genre);
+	    model.addAttribute("books", books);
+	    model.addAttribute("genres", Genre.values()); // per il select
+	    model.addAttribute("authors", this.authorService.getAllAuthors()); // se hai anche autori
+	    return "books.html";
 	}
 }

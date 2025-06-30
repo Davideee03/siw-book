@@ -66,10 +66,4 @@ public class HomepageController {
 		
 		return "homepage.html";
 	}
-	
-	@GetMapping("/errore")
-	public String error(Model model) {
-		model.addAttribute("errorMessage", "Erroreeeee");
-		return "error.html";
-	}
 }

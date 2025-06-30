@@ -64,7 +64,8 @@ public class AuthConfiguration {
                 	    "/authorPhoto/**",
                 	    "/bookPhoto/**",
                 	    "/user/**",
-                	    "/userPhoto/**"
+                	    "/userPhoto/**",
+                	    "/filterBooks/**"
                 	).permitAll()
         		// chiunque (autenticato o no) può mandare richieste POST al punto di accesso per login e register 
                 .requestMatchers(HttpMethod.POST,"/register", "/login", "/").permitAll()

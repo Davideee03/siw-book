@@ -108,4 +108,33 @@ public class BookService {
 	public List<Book> getUnknownBooks() {
 		return this.bookRepository.getUnknownBooks();
 	}
+
+	@Transactional
+	public List<Book> getBooksByTitle(String title) {
+		List<Book> books = (List<Book>) this.bookRepository.getBooksByTitle(title);
+		// Forza caricamento degli ID delle foto (senza toccare il blob)
+		books.forEach(book -> {
+			if (!book.getPhotos().isEmpty()) {
+				book.getPhotos().get(0).getId();
+			}
+
+			this.getAuthors(book.getId());
+		});
+		return books;
+	}
+
+	@Transactional
+	public List<Book> filterBooks(String title, int year, String author, Genre genre) {
+		List<Book> books = this.bookRepository.filterBooks(title, year, author, genre);
+		
+		books.forEach(book -> {
+			if (!book.getPhotos().isEmpty()) {
+				book.getPhotos().get(0).getId();
+			}
+
+			this.getAuthors(book.getId());
+		});
+		
+		return books;
+	}
 }

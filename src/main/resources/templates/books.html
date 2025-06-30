@@ -3,7 +3,8 @@
 
 <head>
 	<title>Books</title>
-	<link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Playfair+Display&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Playfair+Display&display=swap"
+		rel="stylesheet">
 	<link rel="stylesheet" href="/css/style.css?v=1">
 </head>
 
@@ -11,6 +12,42 @@
 	<div th:replace="fragments/navbar :: navbar"></div>
 
 	<h1 class="center-title">Our books</h1>
+
+	<form class="filter" th:action="@{/filterBooks}" method="get">
+		<div class="form-group">
+			<label for="title">Title: </label>
+			<input class="input-field" type="text" id="title" name="title" list="titleSuggestions" />
+			<datalist id="titleSuggestions">
+				<option th:each="book : ${books}" th:value="${book.title}"></option>
+			</datalist>
+		</div>
+
+		<div class="form-group">
+			<label for="year">Year:</label>
+			<input class="input-field" type="number" id="year" name="year" />
+		</div>
+
+		<div class="form-group">
+			<label for="author">Author: </label>
+			<input class="input-field" type="text" id="author" name="author" list="authorSuggestions" />
+			<datalist id="authorSuggestions">
+				<option th:each="author : ${authors}" th:value="${author.firstName + ' ' + author.lastName}"></option>
+			</datalist>
+		</div>
+
+		<div class="form-group">
+			<label for="genre">Genre:</label>
+			<select id="genre" name="genre" class="input-field">
+				<option value="">-- All genres --</option>
+				<option th:each="g : ${genres}" th:value="${g.name()}" th:text="${g}"></option>
+			</select>
+		</div>
+
+
+		<button class="submit-button" type="submit">Filter</button>
+	</form>
+
+
 	<div id="flex-container">
 		<a class="flex-item" th:href="@{/book/{id}(id=${book.id})}" th:each="book : ${books}">
 

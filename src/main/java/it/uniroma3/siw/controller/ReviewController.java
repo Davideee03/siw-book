@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import it.uniroma3.siw.model.Book;
+import it.uniroma3.siw.model.BookPhoto;
 import it.uniroma3.siw.model.Credentials;
 import it.uniroma3.siw.model.Review;
 import it.uniroma3.siw.model.User;
@@ -31,10 +32,11 @@ public class ReviewController {
 
 	@Autowired
 	private BookService bookService;
-	
+
 	@Autowired
 	private ReviewService reviewService;
 
+	@Transactional
 	@GetMapping("/user/formNewReview/book/{id}")
 	public String formNewReview(@PathVariable("id") Long book_id, Model model) {
 		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -46,14 +48,24 @@ public class ReviewController {
 
 		Book book = bookService.getBookById(book_id);
 		// Controllo se l'utente ha già recensito questo libro
-		boolean alreadyReviewed = user.getReviews().stream()
-			.anyMatch(r -> r.getBook().getId().equals(book_id));
+		boolean alreadyReviewed = user.getReviews().stream().anyMatch(r -> r.getBook().getId().equals(book_id));
 
 		if (alreadyReviewed) {
 			model.addAttribute("book", book);
 			model.addAttribute("authors", bookService.getAuthors(book_id));
 			List<Book> booksSameGenre = bookService.findBooksByGenre(book.getGenre());
 			booksSameGenre.remove(book);
+			for (Book bookSameGenre : booksSameGenre) {
+				List<BookPhoto> photos = bookSameGenre.getPhotos();
+				if (photos != null) {
+					for (BookPhoto photo : photos) {
+						if (photo != null && photo.getData() != null) {
+							photo.getData();
+						}
+					}
+				}
+			}
+
 			model.addAttribute("booksSameGenre", booksSameGenre);
 			model.addAttribute("photos", book.getPhotos());
 
@@ -67,22 +79,20 @@ public class ReviewController {
 	}
 
 	@PostMapping("/newReview")
-	public String newReview(@ModelAttribute("review") Review review,
-	                        @RequestParam("bookId") Long bookId,
-	                        Model model) {
-	    
-	    Book book = this.bookService.getBookById(bookId);
+	public String newReview(@ModelAttribute("review") Review review, @RequestParam("bookId") Long bookId, Model model) {
 
-	    UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-	    Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
-	    User user = credentials.getUser();
+		Book book = this.bookService.getBookById(bookId);
 
-	    review.setBook(book);
-	    review.setUser(user);
-	    this.reviewService.save(review);
+		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
+		User user = credentials.getUser();
 
-	    book.addReview(review); 
+		review.setBook(book);
+		review.setUser(user);
+		this.reviewService.save(review);
 
-	    return "redirect:/book/" + bookId;
+		book.addReview(review);
+
+		return "redirect:/book/" + bookId;
 	}
 }

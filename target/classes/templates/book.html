@@ -31,11 +31,9 @@
 
 		<div class="description">
 			<h2 class="center-title">The book's identity card</h2>
-			<h3>Year: </h3>
-			<p th:text="${book.year}"></p>
-			<h3>Genre: </h3>
-			<p th:text="${book.genre}"></p>
-			<h3>Plot: </h3>
+			<p><strong>Year:</strong> <span th:text="${book.year}"></span></p>
+			<p><strong>Genre:</strong> <span th:text="${book.genre}"></span></p>
+			<p><strong>Plot:</strong></p>
 			<p th:text="${book.plot}"></p>
 
 			<h1>Authors</h1>
@@ -77,7 +75,7 @@
 						th:src="@{/images/defaultProfile.jpg}" alt="Foto profilo" />
 				</div>
 				<div class="review-content">
-					<h2 th:text="${review.user.name}">Nome Utente</h2>
+					<h2 th:text="${review.user.name + ' ' + review.user.surname}">Nome Utente</h2>
 					<h3 th:text="${review.title + ' - ' + review.mark + '/5'}">Titolo e Voto</h3>
 					<p th:text="${review.description}">Contenuto della recensione</p>
 				</div>
