@@ -32,5 +32,9 @@ public class BookPhotoService {
 	public void deletePhoto(BookPhoto bookPhoto) {
 		this.bookPhotoRepository.delete(bookPhoto);
 	}
+
+	public void deleteById(Long id) {
+		this.bookPhotoRepository.deleteById(id);
+	}
 }
 

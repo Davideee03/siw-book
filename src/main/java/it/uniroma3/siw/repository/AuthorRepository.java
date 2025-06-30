@@ -13,4 +13,7 @@ public interface AuthorRepository extends CrudRepository<Author, Long>{
 
 	@Query(value = "SELECT * FROM author ORDER BY RANDOM() LIMIT 1", nativeQuery = true)
     Author getRandomAuthor();
+
+	@Query("SELECT a FROM Author a WHERE CONCAT(a.firstName, ' ', a.lastName) = :author")
+	Author getAuthorByName(@Param("author") String authorName);
 }

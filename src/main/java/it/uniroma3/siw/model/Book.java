@@ -27,7 +27,7 @@ public class Book {
 	@OneToMany(mappedBy = "book")
 	private List<Review> reviews = new ArrayList<>();
 
-	@OneToMany(mappedBy = "book")
+	@OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<BookPhoto> photos = new ArrayList<>();
 
 	public Long getId() {
@@ -92,5 +92,17 @@ public class Book {
 
 	public void addReview(Review review) {
 		this.reviews.add(review);
+	}
+	
+	public void deletePhoto(int index) {
+		this.photos.remove(index);
+	}
+	
+	public void append(BookPhoto bookPhoto) {
+		this.photos.add(bookPhoto);
+	}
+
+	public void deletePhoto(BookPhoto bookPhoto) {
+		this.photos.remove(bookPhoto);
 	}
 }

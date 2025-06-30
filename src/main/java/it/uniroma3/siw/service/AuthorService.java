@@ -66,4 +66,11 @@ public class AuthorService {
 
 		return ids;
 	}
+
+	public Author getAuthorByName(String fullName) {
+	    if (fullName == null || fullName.isBlank()) {
+	        return null;
+	    }
+	    return this.authorRepository.getAuthorByName(fullName.trim());
+	}
 }

@@ -2,7 +2,7 @@
 <html>
 
 <head>
-	<title>Add new book</title>
+	<title>Edit Book</title>
 	<link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Playfair+Display&display=swap"
 		rel="stylesheet">
 	<link rel="stylesheet" href="/css/style.css">
@@ -12,7 +12,8 @@
 	<div th:replace="fragments/navbar :: navbar"></div>
 
 	<div class="form-container">
-		<form th:action="@{/book-edited/{id}(id=${book.id})}" method="POST" th:object="${book}" enctype="multipart/form-data" class="book-form">
+		<form th:action="@{/book-edited/{id}(id=${book.id})}" method="POST" th:object="${book}"
+			enctype="multipart/form-data" class="book-form">
 
 			<div class="form-group">
 				<label for="title">Title:</label>
@@ -37,28 +38,70 @@
 			</div>
 
 			<div class="authors-container">
-				<label for="author">Author(s): </label>
+				<!--<label for="author">Author(s): </label>
 				<div th:each="author : ${authors}" class="author-checkbox">
 					<input type="checkbox" name="selectedIds" th:value="${author.id}" />
 					<span th:text="${author.firstName} + ' ' + ${author.lastName}"></span>
+				</div>-->
+				<div class="form-group">
+					<h3 class="center-title">Delete authors</h3>
+					<div class="photo-list">
+						<div th:each="author, iterStat : ${book.authors}" class="photo-substitute-container">
+							<label th:for="'author-' + ${iterStat.index}"
+								th:text="${author.firstName + ' ' + author.lastName}">Author</label>
+							<input type="checkbox" th:id="'author-' + ${iterStat.index}" name="delete-authors"
+								th:value="${author.id}" />
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<h3>Aggiungi autori</h3>
+					<div th:each="i : ${#numbers.sequence(0, 4)}">
+						<input type="text" name="add-authors[]" list="authorSuggestions" class="input-field" />
+					</div>
+
+					<datalist id="authorSuggestions">
+						<option th:each="a : ${authors}" th:value="${a.firstName + ' ' + a.lastName}"></option>
+					</datalist>
 				</div>
 			</div>
 
 
-
 			<div class="form-group">
-				<label>Select images:</label>
-				<input type="file" name="photo" accept="image/*" class="input-field" />
-				<input type="file" name="photo" accept="image/*" class="input-field" />
-				<input type="file" name="photo" accept="image/*" class="input-field" />
-				<input type="file" name="photo" accept="image/*" class="input-field" />
-				<input type="file" name="photo" accept="image/*" class="input-field" />
-			</div>
 
+				<h3 class="center-title">Delete photos</h3>
+				<div class="photo-list">
+					<div th:each="photo, iterStat : ${photos}" class="photo-substitute-container">
+						<label for="image" class="image-upload-label">
+							<div class="photo-substitute">
+								<img th:src="@{/bookPhoto/{id}(id=${photo.id})}" alt="Book photo" />
+							</div>
+						</label>
+						<input type="checkbox" id="image" name="to-delete" th:value="${photo.id}" />
+					</div>
+				</div>
+
+				<h3 class="center-title">Add photos</h3class="center-title">
+					<div class="photo-list">
+						<div class="photo-substitute-container"
+							th:each="i : ${#numbers.sequence(photos != null ? photos.size() : 0, 4)}">
+							<label th:for="'photo' + ${i}" class="image-upload-label">
+								<div class="photo-substitute">
+									<img th:src="@{/images/AddPhotoIcon.png}" />
+								</div>
+							</label>
+							<input th:id="'photo' + ${i}" name="to-add" type="file" accept="image/*" />
+						</div>
+
+					</div>
+			</div>
 			<div class="form-group">
 				<button type="submit" class="submit-button">Submit</button>
 			</div>
 		</form>
+	</div>
+
 	</div>
 
 	<div th:replace="fragments/footer :: footer"></div>
