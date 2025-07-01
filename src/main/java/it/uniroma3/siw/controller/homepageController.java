@@ -58,9 +58,6 @@ public class HomepageController {
 		model.addAttribute("suggestedBook", randomBook);
 	
 		model.addAttribute("topBooks", topBooks);
-		model.addAttribute("thrillerBooks", this.bookService.getThrillerBooks());
-		model.addAttribute("romanceBooks", this.bookService.getRomanceBooks());
-		model.addAttribute("randomAuthor", this.authorService.getRandomAuthor());
 		
 		
 		

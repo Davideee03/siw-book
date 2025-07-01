@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import it.uniroma3.siw.controller.validator.CredentialsValidator;
+import it.uniroma3.siw.controller.validator.UserValidator;
 import it.uniroma3.siw.model.Credentials;
 import it.uniroma3.siw.model.User;
 import it.uniroma3.siw.service.CredentialsService;
@@ -41,6 +43,7 @@ public class AuthenticationController {
 	
 	@Autowired
 	private AuthenticationManager authenticationManager;
+	
 	
 	@GetMapping(value = "/register") 
 	public String showRegisterForm (Model model) {
@@ -94,10 +97,13 @@ public class AuthenticationController {
                  @ModelAttribute("credentials") Credentials credentials,
                  BindingResult credentialsBindingResult,
                  Model model, @RequestParam("confirmPassword") String psw) {
+		
+		/*
 		if(credentialsService.getCredentials(credentials.getUsername()) != null) {
 			model.addAttribute("error", "Username already used. Choose another one");
 			return "formRegisterUser.html";
 		}
+		*/
 		
 		if(!credentials.getPassword().equals(psw)) {
 			model.addAttribute("passwordError", "Passwords are not the same");

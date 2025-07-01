@@ -32,7 +32,10 @@
 		<div class="description">
 			<h2 class="center-title">The book's identity card</h2>
 			<p><strong>Year:</strong> <span th:text="${book.year}"></span></p>
-			<p><strong>Genre:</strong> <span th:text="${book.genre}"></span></p>
+			<p><strong>Genre:</strong>
+				<span
+					th:text="${#strings.capitalize(#strings.replace(book.genre.name().toLowerCase(), '_', ' '))}"></span>
+			</p>
 			<p><strong>Plot:</strong></p>
 			<p th:text="${book.plot}"></p>
 

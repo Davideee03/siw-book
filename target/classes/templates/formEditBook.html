@@ -33,16 +33,14 @@
 			<div class="form-group">
 				<label for="genre">Genre:</label>
 				<select th:field="*{genre}" id="genre" class="input-field">
-					<option th:each="g : ${genres}" th:value="${g}" th:text="${g}"></option>
+					<option th:each="g : ${genres}"
+					            th:value="${g}"
+					            th:text="${#strings.capitalize(#strings.replace(g.name().toLowerCase(), '_', ' '))}">
+					    </option>
 				</select>
 			</div>
 
 			<div class="authors-container">
-				<!--<label for="author">Author(s): </label>
-				<div th:each="author : ${authors}" class="author-checkbox">
-					<input type="checkbox" name="selectedIds" th:value="${author.id}" />
-					<span th:text="${author.firstName} + ' ' + ${author.lastName}"></span>
-				</div>-->
 				<div class="form-group">
 					<h3 class="center-title">Delete authors</h3>
 					<div class="edit-authors">

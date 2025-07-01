@@ -202,7 +202,8 @@ public class BookController {
 			book.setTitle(updatedBook.getTitle());
 			book.setYear(updatedBook.getYear());
 			book.setPlot(updatedBook.getPlot());
-
+			book.setGenre(updatedBook.getGenre());
+			
 			if (authors2add != null) {
 				List<String> names = new ArrayList<>();
 				for (String name : authors2add) {
@@ -253,11 +254,10 @@ public class BookController {
 					}
 				}
 			}
-			// book.setAuthors(this.authorService.getAllAuthorsById(ids));
 			this.bookService.save(book);
 		}
 
-		return "redirect:/";
+		return "redirect:/book/" + id;
 	}
 
 	@GetMapping("/filterBooks")
