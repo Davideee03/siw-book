@@ -1,5 +1,6 @@
 package it.uniroma3.siw.service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,5 +73,9 @@ public class AuthorService {
 	        return null;
 	    }
 	    return this.authorRepository.getAuthorByName(fullName.trim());
+	}
+	
+	public boolean existsByNameAndDate(String name, LocalDate birth) {
+		return this.authorRepository.existsByNameAndBirth(name, birth);
 	}
 }

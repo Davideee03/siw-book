@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import it.uniroma3.siw.controller.validator.AuthorValidator;
 import it.uniroma3.siw.model.Author;
 import it.uniroma3.siw.model.AuthorPhoto;
 import it.uniroma3.siw.model.Book;
@@ -28,6 +30,9 @@ public class AuthorController {
 
 	@Autowired
 	private AuthorPhotoService authorPhotoService;
+	
+	@Autowired
+	private AuthorValidator authorValidator;
 
 	@GetMapping("/formNewAuthor")
 	public String formNewAuthor(Model model) {
@@ -43,8 +48,15 @@ public class AuthorController {
 
 	@Transactional
 	@PostMapping("/author")
-	public String newAuthor(@ModelAttribute("author") Author author, @RequestParam("uploadedImage") MultipartFile photo,
-			Model model) {
+	public String newAuthor(@ModelAttribute("author") Author author, BindingResult bindingResult,
+			@RequestParam("uploadedImage") MultipartFile photo, Model model) {
+		
+		authorValidator.validate(author, bindingResult);
+		if(bindingResult.hasErrors()) {
+			model.addAttribute("duplicate", "This author already exists");
+			return "formNewAuthor.html";
+		}
+		
 		authorService.save(author);
 
 		if (!photo.isEmpty()) {
@@ -126,23 +138,23 @@ public class AuthorController {
 			this.authorService.save(author);
 
 			if (photo != null && !photo.isEmpty()) {
-			    try {
-			        AuthorPhoto existingPhoto = authorPhotoService.findByAuthor(author);
+				try {
+					AuthorPhoto existingPhoto = authorPhotoService.findByAuthor(author);
 
-			        if (existingPhoto != null) {
-			            existingPhoto.setData(photo.getBytes());
-			            authorPhotoService.save(existingPhoto); // UPDATE
-			        } else {
-			            AuthorPhoto newPhoto = new AuthorPhoto();
-			            newPhoto.setData(photo.getBytes());
-			            newPhoto.setAuthor(author);
-			            authorPhotoService.save(newPhoto); // INSERT
-			        }
-			    } catch (IOException e) {
-			        e.printStackTrace();
-			        model.addAttribute("errorMessage", "Errore nel caricamento della foto");
-			        return "formUpdateAuthor.html";
-			    }
+					if (existingPhoto != null) {
+						existingPhoto.setData(photo.getBytes());
+						authorPhotoService.save(existingPhoto); // UPDATE
+					} else {
+						AuthorPhoto newPhoto = new AuthorPhoto();
+						newPhoto.setData(photo.getBytes());
+						newPhoto.setAuthor(author);
+						authorPhotoService.save(newPhoto); // INSERT
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+					model.addAttribute("errorMessage", "Errore nel caricamento della foto");
+					return "formUpdateAuthor.html";
+				}
 			}
 		}
 

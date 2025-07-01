@@ -9,6 +9,8 @@
 
 <body>
 	<div th:replace="fragments/navbar :: navbar"></div>
+	
+	<div th:if="${duplicate}" class="error-message" th:text="${duplicate}"></div>
 
 	<div class="form-container">
 		<form th:action="@{/author}" method="POST" th:object="${author}" enctype="multipart/form-data" class="book-form">

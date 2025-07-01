@@ -44,6 +44,11 @@ public class AuthenticationController {
 	@Autowired
 	private AuthenticationManager authenticationManager;
 	
+	@Autowired
+	private UserValidator userValidator;
+
+	@Autowired
+	private CredentialsValidator credentialsValidator;
 	
 	@GetMapping(value = "/register") 
 	public String showRegisterForm (Model model) {
@@ -98,27 +103,21 @@ public class AuthenticationController {
                  BindingResult credentialsBindingResult,
                  Model model, @RequestParam("confirmPassword") String psw) {
 		
-		/*
-		if(credentialsService.getCredentials(credentials.getUsername()) != null) {
-			model.addAttribute("error", "Username already used. Choose another one");
-			return "formRegisterUser.html";
-		}
-		*/
-		
-		if(!credentials.getPassword().equals(psw)) {
-			model.addAttribute("passwordError", "Passwords are not the same");
-			 return "formRegisterUser.html";
+		userValidator.validate(user, userBindingResult);
+		credentialsValidator.validate(credentials, credentialsBindingResult);
+
+		if (userBindingResult.hasErrors() || credentialsBindingResult.hasErrors()) {
+		    return "formRegisterUser";
 		}
 
-        // se user e credential hanno entrambi contenuti validi, memorizza User e the Credentials nel DB
-        if(!userBindingResult.hasErrors() && ! credentialsBindingResult.hasErrors()) {
-            credentials.setUser(user);
-            credentialsService.saveCredentials(credentials);
-            model.addAttribute("user", user);
-            
-            return "redirect:/login";
-        }
-        return "registrationSuccessful.html";
+		if (!credentials.getPassword().equals(psw)) {
+		    model.addAttribute("passwordError", "Passwords are not the same");
+		    return "formRegisterUser.html";
+		}
+
+		credentials.setUser(user);
+		credentialsService.saveCredentials(credentials);
+		return "redirect:/login";
     }
 
 	

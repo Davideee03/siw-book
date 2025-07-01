@@ -19,18 +19,20 @@
 
 			<p class="error-message" th:if="${passwordError}" th:text="${passwordError}"></p>
 
-			<p th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="error-message"></p>
 			<div class="form-group">
 				<label for="username">Username</label>
-				<input type="text" id="username" th:field="${credentials.username}" name="username" required class="input-field" />
+				<input type="text" id="username" th:field="*{credentials.username}" class="input-field" required />
+				<p class="error-message" th:if="${#fields.hasErrors('credentials.username')}"
+					th:errors="*{credentials.username}"></p>
 			</div>
 
-			<p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error-message"></p>
 			<div class="form-group">
 				<label for="password">Password</label>
-				<input type="password" id="password" name="password" required class="input-field" />
+				<input type="password" id="password" th:field="*{credentials.password}" class="input-field" required />
+				<p class="error-message" th:if="${#fields.hasErrors('credentials.password')}"
+					th:errors="*{credentials.password}"></p>
 			</div>
-
+			
 			<div class="form-group">
 				<label for="confirmPassword">Confirm Password</label>
 				<input type="password" id="confirmPassword" name="confirmPassword" required class="input-field" />
@@ -43,7 +45,8 @@
 
 			<div class="form-group">
 				<label for="surname">Surname</label>
-				<input type="text" id="surname" th:field="${user.surname}" name="surname" required class="input-field" />
+				<input type="text" id="surname" th:field="${user.surname}" name="surname" required
+					class="input-field" />
 			</div>
 
 			<div class="form-group">
