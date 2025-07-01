@@ -38,16 +38,16 @@ public class BookService {
 	@Transactional(readOnly = true)
 	public Book getBookById(Long id) {
 		Book book = bookRepository.findById(id).orElse(null);
-		if (book != null)
+		if (book != null) {
 			book.getPhotos().size();
 
-		book.getReviews().forEach(r -> {
-			User user = r.getUser();
-			if (user.getUserPhoto() != null) {
-				user.getUserPhoto().getData();
-			}
-		});
-
+			book.getReviews().forEach(r -> {
+				User user = r.getUser();
+				if (user.getUserPhoto() != null) {
+					user.getUserPhoto().getData();
+				}
+			});
+		}
 		return book;
 	}
 
@@ -126,7 +126,7 @@ public class BookService {
 	@Transactional
 	public List<Book> filterBooks(String title, int year, String author, Genre genre) {
 		List<Book> books = this.bookRepository.filterBooks(title, year, author, genre);
-		
+
 		books.forEach(book -> {
 			if (!book.getPhotos().isEmpty()) {
 				book.getPhotos().get(0).getId();
@@ -134,7 +134,7 @@ public class BookService {
 
 			this.getAuthors(book.getId());
 		});
-		
+
 		return books;
 	}
 }
