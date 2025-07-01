@@ -200,6 +200,8 @@ nav {
 	gap: 1rem;
 	overflow-y: auto;
 	padding-right: 6px;
+	
+	max-height: 1000px;
 }
 
 .photo-gallery>div {
