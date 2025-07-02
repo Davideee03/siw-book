@@ -11,8 +11,16 @@
 <body>
 	<div th:replace="fragments/navbar :: navbar"></div>
 
+
+
 	<div class="form-container">
 		<form th:action="@{/book}" method="POST" th:object="${book}" enctype="multipart/form-data" class="book-form">
+
+			<div th:if="${#fields.hasGlobalErrors()}" class="error-message">
+				<ul>
+					<li th:each="err : ${#fields.globalErrors()}" th:text="${err}"></li>
+				</ul>
+			</div>
 
 			<div class="form-group">
 				<label for="title">Title:</label>
@@ -32,13 +40,12 @@
 			<div class="form-group">
 				<label for="genre">Genre:</label>
 				<select th:field="*{genre}" id="genre" class="input-field">
-					<option th:each="g : ${genres}"
-					            th:value="${g}"
-					            th:text="${#strings.capitalize(#strings.replace(g.name().toLowerCase(), '_', ' '))}">
-					    </option>
+					<option th:each="g : ${genres}" th:value="${g}"
+						th:text="${#strings.capitalize(#strings.replace(g.name().toLowerCase(), '_', ' '))}">
+					</option>
 				</select>
 			</div>
-			
+
 			<div class="form-group">
 				<h3 class="center-title">Add authors</h3>
 				<div class="edit-authors">

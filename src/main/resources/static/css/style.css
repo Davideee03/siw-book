@@ -627,6 +627,17 @@ nav {
 	transform: translateY(-2px);
 }
 
+.remove-review-button {
+	color: var(--light-gray);
+	text-decoration: none;
+	transition: opacity 0.3s ease;
+}
+
+.remove-review-button:hover {
+	opacity: 0.8;
+	text-decoration: underline;
+}
+
 /* ===============================
    SUGGESTED BOOK
    =============================== */

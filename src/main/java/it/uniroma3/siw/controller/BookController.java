@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import it.uniroma3.siw.controller.validator.BookValidator;
 import it.uniroma3.siw.model.Author;
 import it.uniroma3.siw.model.Book;
 import it.uniroma3.siw.model.BookPhoto;
@@ -45,6 +47,9 @@ public class BookController {
 
 	@Autowired
 	private ReviewService reviewService;
+
+	@Autowired
+	private BookValidator bookValidator;
 
 	@GetMapping("/show/books")
 	public String showBook(Model model) {
@@ -98,8 +103,16 @@ public class BookController {
 
 	@Transactional
 	@PostMapping("/book")
-	public String saveBook(@ModelAttribute("book") Book book, @RequestParam("photo") MultipartFile[] photos,
+	public String saveBook(@ModelAttribute("book") Book book, BindingResult bindingResult,
+			@RequestParam("photo") MultipartFile[] photos,
 			@RequestParam(name = "add-authors", required = false) String[] authors2add, Model model) {
+
+		bookValidator.validate(book, bindingResult);
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("authors", this.authorService.getAllAuthors());
+			model.addAttribute("genres", Genre.values());
+			return "formNewBook.html";
+		}
 
 		if (authors2add != null) {
 			List<String> names = new ArrayList<>();
@@ -203,7 +216,7 @@ public class BookController {
 			book.setYear(updatedBook.getYear());
 			book.setPlot(updatedBook.getPlot());
 			book.setGenre(updatedBook.getGenre());
-			
+
 			if (authors2add != null) {
 				List<String> names = new ArrayList<>();
 				for (String name : authors2add) {
@@ -216,7 +229,7 @@ public class BookController {
 					}
 				}
 			}
-			
+
 			if (authors2delete != null) {
 				for (Long authorId : authors2delete) {
 					Author a = authorService.getAuthorById(authorId);

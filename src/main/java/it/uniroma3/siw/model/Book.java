@@ -73,6 +73,10 @@ public class Book {
 	public List<Review> getReviews() {
 		return this.reviews;
 	}
+	
+	public void removeReview(Review review) {
+		this.reviews.remove(review);
+	}
 
 	public Genre getGenre() {
 		return genre;

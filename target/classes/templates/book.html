@@ -82,6 +82,12 @@
 					<h3 th:text="${review.title + ' - ' + review.mark + '/5'}">Titolo e Voto</h3>
 					<p th:text="${review.description}">Contenuto della recensione</p>
 				</div>
+
+				<a class="remove-review-button"
+				   sec:authorize="isAuthenticated() and hasRole('ADMIN')"
+				   th:href="@{/removeReview(reviewId=${review.id}, bookId=${book.id})}">
+				   Remove
+				</a>
 			</div>
 		</section>
 	</div>

@@ -27,4 +27,8 @@ public class ReviewService {
 		this.reviewRepository.delete(review);
 		
 	}
+	
+	public Review findReviewById(Long id) {
+		return this.reviewRepository.findById(id).orElse(null);
+	}
 }

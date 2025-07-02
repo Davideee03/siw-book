@@ -53,7 +53,6 @@ public class AuthorController {
 		
 		authorValidator.validate(author, bindingResult);
 		if(bindingResult.hasErrors()) {
-			model.addAttribute("duplicate", "This author already exists");
 			return "formNewAuthor.html";
 		}
 		

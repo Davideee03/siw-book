@@ -137,4 +137,9 @@ public class BookService {
 
 		return books;
 	}
+
+	public boolean existsBookTitleYearAuthor(String title, int year, List<Author> authors) {
+		return this.bookRepository.existsBookTitleYearAuthor(title, year, authors, authors.size());
+		
+	}
 }

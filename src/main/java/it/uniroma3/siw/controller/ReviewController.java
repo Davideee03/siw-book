@@ -8,12 +8,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import it.uniroma3.siw.controller.validator.ReviewValidator;
 import it.uniroma3.siw.model.Book;
 import it.uniroma3.siw.model.BookPhoto;
 import it.uniroma3.siw.model.Credentials;
@@ -35,6 +37,9 @@ public class ReviewController {
 
 	@Autowired
 	private ReviewService reviewService;
+	
+	@Autowired
+	private ReviewValidator reviewValidator;
 
 	@Transactional
 	@GetMapping("/user/formNewReview/book/{id}")
@@ -79,8 +84,14 @@ public class ReviewController {
 	}
 
 	@PostMapping("/newReview")
-	public String newReview(@ModelAttribute("review") Review review, @RequestParam("bookId") Long bookId, Model model) {
+	public String newReview(@ModelAttribute("review") Review review, BindingResult bindingResult, @RequestParam("bookId") Long bookId, Model model) {
 
+		this.reviewValidator.validate(review, bindingResult);
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("book_id", bookId);
+			return "formNewReview.html";
+		}
+		
 		Book book = this.bookService.getBookById(bookId);
 
 		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -94,5 +105,15 @@ public class ReviewController {
 		book.addReview(review);
 
 		return "redirect:/book/" + bookId;
+	}
+	
+	@GetMapping("/removeReview")
+	public String removeReview(@RequestParam("reviewId") Long reviewId, @RequestParam("bookId") Long bookId) {
+		Review review = this.reviewService.findReviewById(reviewId);
+		
+		review.getBook().removeReview(review);
+		this.reviewService.deleteReview(review);
+		
+		return "redirect:/book/"+bookId;
 	}
 }
