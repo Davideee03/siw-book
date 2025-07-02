@@ -38,7 +38,7 @@
 
 	<div th:unless="${#lists.isEmpty(author.books)}">
 		<section id="reviews">
-			<h1>Books by the same author</h1>
+			<h1>Author's books</h1>
 			<div id="author-flex-container" th:if="${author.books != null}">
 				<a class="flex-item" th:each="book : ${books}" th:href="@{/book/{id}(id=${book.id})}">
 					

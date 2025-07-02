@@ -15,14 +15,14 @@
 	<h1 class="center-title">Our Suggestion!</h1>
 	<section th:if="${suggestedBook}" id="suggested-book-container">
 		<div class="description">
-			<div class="suggested-photo-container">
+			<a class="suggested-photo-container im-interactive" th:href="@{/book/{id}(id=${suggestedBook.id})}">
 				<img th:if="${!#lists.isEmpty(suggestedBook.photos)}"
 					th:src="@{/bookPhoto/{id}(id=${suggestedBook.photos[0].id})}" alt="Foto libro" />
-			</div>
+			</a>
 		</div>
 
 		<div class="description">
-			<h2 class="book-title" th:text="${suggestedBook.title}"></h2>
+			<a class="book-title title-interactive" th:href="@{/book/{id}(id=${suggestedBook.id})}" th:text="${suggestedBook.title}"></a>
 			<p th:text="${suggestedBook.plot}"></p>
 			<div th:unless="${#lists.isEmpty(suggestedBook.authors)}" th:each="author : ${suggestedBook.authors}">
 				<a class="suggested-author" th:href="@{/author/{id}(id=${author.id})}" th:text="${'of ' + author.firstName + ' ' + author.lastName}"></a>
