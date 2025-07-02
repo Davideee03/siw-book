@@ -122,9 +122,9 @@ public class BookService {
 		});
 		return books;
 	}
-
+/*
 	@Transactional
-	public List<Book> filterBooks(String title, int year, String author, Genre genre) {
+	public List<Book> filterBooks2(String title, int year, String author, Genre genre) {
 		List<Book> books = this.bookRepository.filterBooks(title, year, author, genre);
 
 		books.forEach(book -> {
@@ -137,9 +137,31 @@ public class BookService {
 
 		return books;
 	}
-
+*/
 	public boolean existsBookTitleYearAuthor(String title, int year, List<Author> authors) {
 		return this.bookRepository.existsBookTitleYearAuthor(title, year, authors, authors.size());
 		
+	}
+	
+	@Transactional
+	public List<Book> filterBooks(String title, int year, String author, Genre genre) {
+		List<Book> allBooks = this.bookRepository.findAllWithAuthors();
+		
+		allBooks.forEach(book -> {
+			if (!book.getPhotos().isEmpty()) {
+				book.getPhotos().get(0).getId();
+			}
+
+			this.getAuthors(book.getId());
+		});
+
+		return allBooks.stream()
+			.filter(b -> title == null || title.isEmpty() || b.getTitle().equalsIgnoreCase(title))
+			.filter(b -> year == 0 || b.getYear() == year)
+			.filter(b -> author == null || author.isEmpty() || 
+			             b.getAuthors().stream().anyMatch(a -> 
+			                 (a.getFirstName() + " " + a.getLastName()).equalsIgnoreCase(author)))
+			.filter(b -> genre == null || b.getGenre() == genre)
+			.toList();
 	}
 }

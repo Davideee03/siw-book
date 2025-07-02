@@ -43,9 +43,16 @@ public interface BookRepository extends CrudRepository<Book, Long> {
 			      AND (:author = '' OR CONCAT(a.firstName, ' ', a.lastName) = :author)
 			      AND (:genre IS NULL OR b.genre = :genre)
 			""")
+	List<Book> filterBooks1(@Param("title") String title, @Param("year") int year, @Param("author") String author,
+			@Param("genre") Genre genre);
+	
+	@Query("""
+		    SELECT DISTINCT b FROM Book b
+			JOIN b.authors a
+			WHERE (:title = '' OR b.title = :title)
+		""")
 	List<Book> filterBooks(@Param("title") String title, @Param("year") int year, @Param("author") String author,
 			@Param("genre") Genre genre);
-
 	@Query("""
 			SELECT CASE WHEN COUNT(b) > 0 THEN true ELSE false END
 			FROM Book b
@@ -60,4 +67,7 @@ public interface BookRepository extends CrudRepository<Book, Long> {
 	boolean existsBookTitleYearAuthor(@Param("title") String title, @Param("year") int year,
 			@Param("authors") List<Author> authors, @Param("size") long size);
 
+	@Query("SELECT DISTINCT b FROM Book b JOIN b.authors a")
+	List<Book> findAllWithAuthors();
+	
 }

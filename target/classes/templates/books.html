@@ -39,7 +39,9 @@
 			<label for="genre">Genre:</label>
 			<select id="genre" name="genre" class="input-field">
 				<option value="">-- All genres --</option>
-				<option th:each="g : ${genres}" th:value="${g.name()}" th:text="${g}"></option>
+				<option th:each="g : ${genres}" th:value="${g}"
+					th:text="${#strings.capitalize(#strings.replace(g.name().toLowerCase(), '_', ' '))}">
+				</option>
 			</select>
 		</div>
 

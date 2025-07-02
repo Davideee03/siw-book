@@ -277,12 +277,15 @@ public class BookController {
 	public String filterBooks(@RequestParam(required = false, defaultValue = "") String title,
 			@RequestParam(required = false, defaultValue = "0") int year,
 			@RequestParam(required = false, defaultValue = "") String author,
-			@RequestParam(required = false) Genre genre, // enum direttamente!
+			@RequestParam(required = false) Genre genre, 
 			Model model) {
 		List<Book> books = this.bookService.filterBooks(title, year, author, genre);
 		model.addAttribute("books", books);
 		model.addAttribute("genres", Genre.values()); // per il select
-		model.addAttribute("authors", this.authorService.getAllAuthors()); // se hai anche autori
+		model.addAttribute("authors", this.authorService.getAllAuthors());
+		
+		System.out.println("===========================================");
+		System.out.println(books);
 		return "books.html";
 	}
 }
